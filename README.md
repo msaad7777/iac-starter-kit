@@ -22,6 +22,11 @@ Everything runs locally against [Moto](https://github.com/getmoto/moto), a local
 
 ## Architecture
 
+![iac-starter-kit architecture: greenfield and brownfield ways in, modules and Terragrunt live config, the pull-request checks (Terraform tests, Trivy, plan JSON checked by Kyverno policies) and the local RAG assistant, with the measured results](docs/architecture.png)
+
+<details>
+<summary>Same diagram as text (Mermaid)</summary>
+
 ```mermaid
 flowchart TB
     subgraph Paths["Two ways in"]
@@ -52,6 +57,8 @@ flowchart TB
         D3 --> D4["gpt-oss:20b via Ollama<br/>cited answer or decline"]
     end
 ```
+
+</details>
 
 ## What's in the kit
 

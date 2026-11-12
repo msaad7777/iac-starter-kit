@@ -1,0 +1,147 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1920' height='1569' viewBox='0 0 1920 1569' font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif"><defs><linearGradient id='band' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#4f46e5'/><stop offset='0.55' stop-color='#9333ea'/><stop offset='1' stop-color='#db2777'/></linearGradient><filter id='sh' x='-10%' y='-10%' width='120%' height='130%'><feDropShadow dx='0' dy='3' stdDeviation='4' flood-color='#0f172a' flood-opacity='0.12'/></filter><marker id='a' viewBox='0 0 10 10' refX='8' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#334155'/></marker></defs><rect width='1920' height='1569' fill='#ffffff'/><rect x='0' y='0' width='1920' height='150' fill='url(#band)'/>
+<text x='50' y='78' font-size='48' font-weight='800' fill='#ffffff' text-anchor='start'>iac-starter-kit: AWS infrastructure as code</text>
+<text x='50' y='122' font-size='25' font-weight='500' fill='#f5f3ff' text-anchor='start'>Modules, Terragrunt, policy checks on every plan, brownfield import, and a local RAG assistant.</text>
+<text x='1870' y='122' font-size='23' font-weight='600' fill='#fce7f3' text-anchor='end'>github.com/msaad7777/iac-starter-kit</text>
+<rect x='50' y='190' width='1820' height='242' rx='22' fill='#eef2ff'/>
+<rect x='74' y='208' width='189' height='38' rx='19' fill='#4338ca'/>
+<text x='169' y='235' font-size='22' font-weight='700' fill='#ffffff' text-anchor='middle'>Two ways in</text>
+<rect x='50' y='462' width='1820' height='242' rx='22' fill='#fdf4ff'/>
+<rect x='74' y='480' width='97' height='38' rx='19' fill='#a21caf'/>
+<text x='122' y='507' font-size='22' font-weight='700' fill='#ffffff' text-anchor='middle'>Code</text>
+<rect x='50' y='734' width='1820' height='242' rx='22' fill='#ecfeff'/>
+<rect x='1340' y='752' width='506' height='38' rx='19' fill='#0e7490'/>
+<text x='1593' y='779' font-size='22' font-weight='700' fill='#ffffff' text-anchor='middle'>Every pull request (GitHub Actions)</text>
+<rect x='50' y='1006' width='1820' height='273' rx='22' fill='#fff7ed'/>
+<rect x='74' y='1024' width='348' height='38' rx='19' fill='#c2410c'/>
+<text x='248' y='1051' font-size='22' font-weight='700' fill='#ffffff' text-anchor='middle'>Ask the kit (local RAG)</text>
+<path d='M932,318 L988,318' stroke='#334155' stroke-width='3.5' fill='none' marker-end='url(#a)'/>
+<path d='M1388,318 L1444,318' stroke='#334155' stroke-width='3.5' fill='none' marker-end='url(#a)'/>
+<path d='M276,398 L276,447 L243,447 L243,528' stroke='#334155' stroke-width='3.5' fill='none' marker-end='url(#a)'/>
+<path d='M1644,398 L1644,447 L461,447 L461,528' stroke='#334155' stroke-width='3.5' fill='none' marker-end='url(#a)'/>
+<path d='M628,590 L684,590' stroke='#334155' stroke-width='3.5' fill='none' marker-end='url(#a)'/>
+<path d='M960,670 L960,719 L230,719 L230,800' stroke='#334155' stroke-width='3.5' fill='none' marker-end='url(#a)'/>
+<path d='M960,670 L960,719 L595,719 L595,800' stroke='#334155' stroke-width='3.5' fill='none' marker-end='url(#a)'/>
+<path d='M960,670 L960,719 L960,719 L960,800' stroke='#334155' stroke-width='3.5' fill='none' marker-end='url(#a)'/>
+<path d='M1114,862 L1170,862' stroke='#334155' stroke-width='3.5' fill='none' marker-end='url(#a)'/>
+<path d='M1535,862 L1479,862' stroke='#334155' stroke-width='3.5' fill='none' marker-end='url(#a)'/>
+<path d='M385,1134 L441,1134' stroke='#334155' stroke-width='3.5' fill='none' marker-end='url(#a)'/>
+<path d='M750,1134 L806,1134' stroke='#334155' stroke-width='3.5' fill='none' marker-end='url(#a)'/>
+<path d='M1114,1134 L1170,1134' stroke='#334155' stroke-width='3.5' fill='none' marker-end='url(#a)'/>
+<path d='M1479,1134 L1535,1134' stroke='#334155' stroke-width='3.5' fill='none' marker-end='url(#a)'/>
+<g filter='url(#sh)'><rect x='80' y='260' width='392' height='138' rx='16' fill='#f8fafc' stroke='#475569' stroke-width='3'/></g>
+<path d='M80,276 a16,16 0 0 1 16,-16 h360 a16,16 0 0 1 16,16 v38 h-392 z' fill='#475569'/>
+<text x='276' y='298' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>Greenfield</text>
+<text x='276' y='348' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>new account,</text>
+<text x='276' y='379' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>docs/greenfield.md</text>
+<g filter='url(#sh)'><rect x='536' y='260' width='392' height='138' rx='16' fill='#f8fafc' stroke='#475569' stroke-width='3'/></g>
+<path d='M536,276 a16,16 0 0 1 16,-16 h360 a16,16 0 0 1 16,16 v38 h-392 z' fill='#475569'/>
+<text x='732' y='298' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>Brownfield</text>
+<text x='732' y='348' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>discover.py: read-only</text>
+<text x='732' y='379' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>API calls, import blocks</text>
+<g filter='url(#sh)'><rect x='992' y='260' width='392' height='138' rx='16' fill='#eff6ff' stroke='#2563eb' stroke-width='3'/></g>
+<path d='M992,276 a16,16 0 0 1 16,-16 h360 a16,16 0 0 1 16,16 v38 h-392 z' fill='#2563eb'/>
+<text x='1188' y='298' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>Generate config</text>
+<text x='1188' y='348' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>terraform plan</text>
+<text x='1188' y='379' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>-generate-config-out</text>
+<g filter='url(#sh)'><rect x='1448' y='260' width='392' height='138' rx='16' fill='#eff6ff' stroke='#2563eb' stroke-width='3'/></g>
+<path d='M1448,276 a16,16 0 0 1 16,-16 h360 a16,16 0 0 1 16,16 v38 h-392 z' fill='#2563eb'/>
+<text x='1644' y='298' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>Adopt into modules</text>
+<text x='1644' y='348' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>import { to =</text>
+<text x='1644' y='379' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>module.x... }</text>
+<g filter='url(#sh)'><rect x='80' y='532' width='544' height='138' rx='16' fill='#eff6ff' stroke='#2563eb' stroke-width='3'/></g>
+<path d='M80,548 a16,16 0 0 1 16,-16 h512 a16,16 0 0 1 16,16 v38 h-544 z' fill='#2563eb'/>
+<text x='352' y='570' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>modules/</text>
+<text x='352' y='620' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>tags, s3-bucket, network,</text>
+<text x='352' y='651' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>budget, gpu-inference</text>
+<g filter='url(#sh)'><rect x='688' y='532' width='544' height='138' rx='16' fill='#f0fdfa' stroke='#0d9488' stroke-width='3'/></g>
+<path d='M688,548 a16,16 0 0 1 16,-16 h512 a16,16 0 0 1 16,16 v38 h-544 z' fill='#0d9488'/>
+<text x='960' y='570' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>live/ (Terragrunt)</text>
+<text x='960' y='620' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>root.hcl: provider, tags,</text>
+<text x='960' y='651' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>state; dev and prod</text>
+<g filter='url(#sh)'><rect x='1296' y='532' width='544' height='138' rx='16' fill='#eff6ff' stroke='#2563eb' stroke-width='3'/></g>
+<path d='M1296,548 a16,16 0 0 1 16,-16 h512 a16,16 0 0 1 16,16 v38 h-544 z' fill='#2563eb'/>
+<text x='1568' y='570' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>pulumi/</text>
+<text x='1568' y='620' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>SecureBucket component,</text>
+<text x='1568' y='651' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>tested with Pulumi mocks</text>
+<g filter='url(#sh)'><rect x='80' y='804' width='301' height='138' rx='16' fill='#fff7ed' stroke='#ea580c' stroke-width='3'/></g>
+<path d='M80,820 a16,16 0 0 1 16,-16 h269 a16,16 0 0 1 16,16 v38 h-301 z' fill='#ea580c'/>
+<text x='230' y='842' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>Terraform tests</text>
+<text x='230' y='892' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>fmt, validate, test</text>
+<text x='230' y='923' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>with mock providers</text>
+<g filter='url(#sh)'><rect x='445' y='804' width='301' height='138' rx='16' fill='#fff7ed' stroke='#ea580c' stroke-width='3'/></g>
+<path d='M445,820 a16,16 0 0 1 16,-16 h269 a16,16 0 0 1 16,16 v38 h-301 z' fill='#ea580c'/>
+<text x='595' y='842' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>Trivy</text>
+<text x='595' y='892' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>config scan</text>
+<g filter='url(#sh)'><rect x='810' y='804' width='301' height='138' rx='16' fill='#eff6ff' stroke='#2563eb' stroke-width='3'/></g>
+<path d='M810,820 a16,16 0 0 1 16,-16 h269 a16,16 0 0 1 16,16 v38 h-301 z' fill='#2563eb'/>
+<text x='960' y='842' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>Plan to JSON</text>
+<text x='960' y='892' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>terragrunt plan</text>
+<text x='960' y='923' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>against Moto</text>
+<g filter='url(#sh)'><rect x='1174' y='804' width='301' height='138' rx='16' fill='#fff7ed' stroke='#ea580c' stroke-width='3'/></g>
+<path d='M1174,820 a16,16 0 0 1 16,-16 h269 a16,16 0 0 1 16,16 v38 h-301 z' fill='#ea580c'/>
+<text x='1325' y='842' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>Kyverno</text>
+<text x='1325' y='892' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>5 plan policies: tags,</text>
+<text x='1325' y='923' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>S3, IMDSv2, GPU, NAT</text>
+<g filter='url(#sh)'><rect x='1539' y='804' width='301' height='138' rx='16' fill='#fff7ed' stroke='#ea580c' stroke-width='3'/></g>
+<path d='M1539,820 a16,16 0 0 1 16,-16 h269 a16,16 0 0 1 16,16 v38 h-301 z' fill='#ea580c'/>
+<text x='1690' y='842' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>Bad-plan fixture</text>
+<text x='1690' y='892' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>every policy</text>
+<text x='1690' y='923' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>must fire on it</text>
+<g filter='url(#sh)'><rect x='80' y='1076' width='301' height='169' rx='16' fill='#f8fafc' stroke='#475569' stroke-width='3'/></g>
+<path d='M80,1092 a16,16 0 0 1 16,-16 h269 a16,16 0 0 1 16,16 v38 h-301 z' fill='#475569'/>
+<text x='230' y='1114' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>148 docs</text>
+<text x='230' y='1164' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>kit, OpenTofu, AWS,</text>
+<text x='230' y='1195' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>Terragrunt, Kyverno,</text>
+<text x='230' y='1226' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>Pulumi docs</text>
+<g filter='url(#sh)'><rect x='445' y='1076' width='301' height='169' rx='16' fill='#eff6ff' stroke='#2563eb' stroke-width='3'/></g>
+<path d='M445,1092 a16,16 0 0 1 16,-16 h269 a16,16 0 0 1 16,16 v38 h-301 z' fill='#2563eb'/>
+<text x='595' y='1114' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>Chunking</text>
+<text x='595' y='1164' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>by Markdown heading</text>
+<text x='595' y='1195' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>and by HCL block</text>
+<g filter='url(#sh)'><rect x='810' y='1076' width='301' height='169' rx='16' fill='#f0fdfa' stroke='#0d9488' stroke-width='3'/></g>
+<path d='M810,1092 a16,16 0 0 1 16,-16 h269 a16,16 0 0 1 16,16 v38 h-301 z' fill='#0d9488'/>
+<text x='960' y='1114' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>Chroma + BM25</text>
+<text x='960' y='1164' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>1,824 chunks</text>
+<g filter='url(#sh)'><rect x='1174' y='1076' width='301' height='169' rx='16' fill='#f5f3ff' stroke='#7c3aed' stroke-width='3'/></g>
+<path d='M1174,1092 a16,16 0 0 1 16,-16 h269 a16,16 0 0 1 16,16 v38 h-301 z' fill='#7c3aed'/>
+<text x='1325' y='1114' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>Search + re-rank</text>
+<text x='1325' y='1164' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>hybrid retrieval,</text>
+<text x='1325' y='1195' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>cross-encoder</text>
+<g filter='url(#sh)'><rect x='1539' y='1076' width='301' height='169' rx='16' fill='#f5f3ff' stroke='#7c3aed' stroke-width='3'/></g>
+<path d='M1539,1092 a16,16 0 0 1 16,-16 h269 a16,16 0 0 1 16,16 v38 h-301 z' fill='#7c3aed'/>
+<text x='1690' y='1114' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>gpt-oss:20b</text>
+<text x='1690' y='1164' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>cited answer with file</text>
+<text x='1690' y='1195' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>links, or a decline</text>
+<text x='50' y='1323' font-size='26' font-weight='800' fill='#0f172a' text-anchor='start'>Measured</text>
+<text x='190' y='1323' font-size='21' font-weight='500' fill='#334155' text-anchor='start'>Kyverno and brownfield checks run in CI; RAG on 33 answerable + 11 unanswerable questions.</text>
+<rect x='50' y='1343' width='345' height='120' rx='16' fill='#ffffff' stroke='#4f46e5' stroke-width='3'/>
+<rect x='50' y='1343' width='12' height='120' rx='6' fill='#4f46e5'/>
+<text x='228' y='1401' font-size='40' font-weight='800' fill='#4f46e5' text-anchor='middle'>8 / 8</text>
+<text x='228' y='1439' font-size='20' font-weight='600' fill='#334155' text-anchor='middle'>dev + prod plans pass</text>
+<rect x='419' y='1343' width='345' height='120' rx='16' fill='#ffffff' stroke='#9333ea' stroke-width='3'/>
+<rect x='419' y='1343' width='12' height='120' rx='6' fill='#9333ea'/>
+<text x='597' y='1401' font-size='40' font-weight='800' fill='#9333ea' text-anchor='middle'>4 vs 14</text>
+<text x='597' y='1439' font-size='20' font-weight='600' fill='#334155' text-anchor='middle'>imported vs Terraformer</text>
+<rect x='788' y='1343' width='345' height='120' rx='16' fill='#ffffff' stroke='#db2777' stroke-width='3'/>
+<rect x='788' y='1343' width='12' height='120' rx='6' fill='#db2777'/>
+<text x='966' y='1401' font-size='40' font-weight='800' fill='#db2777' text-anchor='middle'>0.960</text>
+<text x='966' y='1439' font-size='20' font-weight='600' fill='#334155' text-anchor='middle'>RAG faithfulness</text>
+<rect x='1156' y='1343' width='345' height='120' rx='16' fill='#ffffff' stroke='#ea580c' stroke-width='3'/>
+<rect x='1156' y='1343' width='12' height='120' rx='6' fill='#ea580c'/>
+<text x='1335' y='1401' font-size='40' font-weight='800' fill='#ea580c' text-anchor='middle'>11 / 11</text>
+<text x='1335' y='1439' font-size='20' font-weight='600' fill='#334155' text-anchor='middle'>unanswerable declined</text>
+<rect x='1525' y='1343' width='345' height='120' rx='16' fill='#ffffff' stroke='#0d9488' stroke-width='3'/>
+<rect x='1525' y='1343' width='12' height='120' rx='6' fill='#0d9488'/>
+<text x='1704' y='1401' font-size='40' font-weight='800' fill='#0d9488' text-anchor='middle'>2 / 33</text>
+<text x='1704' y='1439' font-size='20' font-weight='600' fill='#334155' text-anchor='middle'>answerable declined</text>
+<rect x='50' y='1491' width='22' height='22' rx='5' fill='#475569'/>
+<text x='82' y='1509' font-size='20' font-weight='600' fill='#334155' text-anchor='start'>Input</text>
+<rect x='170.0' y='1491' width='22' height='22' rx='5' fill='#2563eb'/>
+<text x='202' y='1509' font-size='20' font-weight='600' fill='#334155' text-anchor='start'>Code</text>
+<rect x='279.2' y='1491' width='22' height='22' rx='5' fill='#7c3aed'/>
+<text x='311' y='1509' font-size='20' font-weight='600' fill='#334155' text-anchor='start'>Model</text>
+<rect x='399.2' y='1491' width='22' height='22' rx='5' fill='#0d9488'/>
+<text x='431' y='1509' font-size='20' font-weight='600' fill='#334155' text-anchor='start'>Data store</text>
+<rect x='573.2' y='1491' width='22' height='22' rx='5' fill='#ea580c'/>
+<text x='605' y='1509' font-size='20' font-weight='600' fill='#334155' text-anchor='start'>Check / gate</text>
+<text x='1870' y='1509' font-size='20' font-weight='600' fill='#334155' text-anchor='end'>Terraform · Terragrunt · Kyverno · Trivy · Pulumi · Moto · Ollama</text></svg>
