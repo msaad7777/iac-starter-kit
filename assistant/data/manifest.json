@@ -1,0 +1,416 @@
+{
+  "external": [
+    {
+      "name": "OpenTofu docs",
+      "repo": "opentofu/opentofu",
+      "sha": "3967c693d10833fba8a4c49ad25fe70558af9741",
+      "licence": "MPL-2.0",
+      "files": [
+        {
+          "path": "website/docs/language/import/index.mdx",
+          "bytes": 8168
+        },
+        {
+          "path": "website/docs/language/import/generating-configuration.mdx",
+          "bytes": 7494
+        },
+        {
+          "path": "website/docs/language/modules/index.mdx",
+          "bytes": 2795
+        },
+        {
+          "path": "website/docs/language/modules/syntax.mdx",
+          "bytes": 9344
+        },
+        {
+          "path": "website/docs/language/modules/sources.mdx",
+          "bytes": 20361
+        },
+        {
+          "path": "website/docs/language/modules/develop/index.mdx",
+          "bytes": 5389
+        },
+        {
+          "path": "website/docs/language/modules/develop/structure.mdx",
+          "bytes": 6036
+        },
+        {
+          "path": "website/docs/language/modules/develop/composition.mdx",
+          "bytes": 13852
+        },
+        {
+          "path": "website/docs/language/modules/develop/providers.mdx",
+          "bytes": 9233
+        },
+        {
+          "path": "website/docs/language/modules/develop/refactoring.mdx",
+          "bytes": 16061
+        },
+        {
+          "path": "website/docs/language/modules/develop/publish.mdx",
+          "bytes": 3629
+        },
+        {
+          "path": "website/docs/language/meta-arguments/count.mdx",
+          "bytes": 5254
+        },
+        {
+          "path": "website/docs/language/meta-arguments/for_each.mdx",
+          "bytes": 9896
+        },
+        {
+          "path": "website/docs/language/meta-arguments/lifecycle.mdx",
+          "bytes": 1259
+        },
+        {
+          "path": "website/docs/language/meta-arguments/depends_on.mdx",
+          "bytes": 3768
+        },
+        {
+          "path": "website/docs/language/state/index.mdx",
+          "bytes": 4098
+        },
+        {
+          "path": "website/docs/language/state/purpose.mdx",
+          "bytes": 5551
+        },
+        {
+          "path": "website/docs/language/state/backends.mdx",
+          "bytes": 3180
+        },
+        {
+          "path": "website/docs/language/state/locking.mdx",
+          "bytes": 1680
+        },
+        {
+          "path": "website/docs/language/state/remote.mdx",
+          "bytes": 3159
+        },
+        {
+          "path": "website/docs/language/state/remote-state-data.mdx",
+          "bytes": 14291
+        },
+        {
+          "path": "website/docs/language/state/sensitive-data.mdx",
+          "bytes": 1188
+        },
+        {
+          "path": "website/docs/language/state/workspaces.mdx",
+          "bytes": 3148
+        },
+        {
+          "path": "website/docs/language/state/import.mdx",
+          "bytes": 378
+        },
+        {
+          "path": "website/docs/language/settings/backends/s3.mdx",
+          "bytes": 39190
+        },
+        {
+          "path": "website/docs/language/values/variables.mdx",
+          "bytes": 23129
+        },
+        {
+          "path": "website/docs/language/values/outputs.mdx",
+          "bytes": 11348
+        },
+        {
+          "path": "website/docs/language/values/locals.mdx",
+          "bytes": 3813
+        },
+        {
+          "path": "website/docs/cli/commands/plan.mdx",
+          "bytes": 21817
+        },
+        {
+          "path": "website/docs/cli/commands/import.mdx",
+          "bytes": 6960
+        },
+        {
+          "path": "website/docs/cli/commands/state/mv.mdx",
+          "bytes": 9787
+        },
+        {
+          "path": "website/docs/cli/commands/test/index.mdx",
+          "bytes": 36318
+        }
+      ]
+    },
+    {
+      "name": "Terraform AWS provider docs",
+      "repo": "hashicorp/terraform-provider-aws",
+      "sha": "258e700884731d74fd62728e1bb5da784bf3c72f",
+      "licence": "MPL-2.0",
+      "files": [
+        {
+          "path": "website/docs/index.html.markdown",
+          "bytes": 46655
+        },
+        {
+          "path": "website/docs/guides/resource-tagging.html.markdown",
+          "bytes": 10701
+        },
+        {
+          "path": "website/docs/d/default_tags.html.markdown",
+          "bytes": 1299
+        },
+        {
+          "path": "website/docs/r/s3_bucket.html.markdown",
+          "bytes": 35826
+        },
+        {
+          "path": "website/docs/r/s3_bucket_public_access_block.html.markdown",
+          "bytes": 4671
+        },
+        {
+          "path": "website/docs/r/s3_bucket_lifecycle_configuration.html.markdown",
+          "bytes": 19698
+        },
+        {
+          "path": "website/docs/r/s3_bucket_server_side_encryption_configuration.html.markdown",
+          "bytes": 6591
+        },
+        {
+          "path": "website/docs/r/s3_bucket_versioning.html.markdown",
+          "bytes": 6887
+        },
+        {
+          "path": "website/docs/r/vpc.html.markdown",
+          "bytes": 7970
+        },
+        {
+          "path": "website/docs/r/subnet.html.markdown",
+          "bytes": 10123
+        },
+        {
+          "path": "website/docs/r/nat_gateway.html.markdown",
+          "bytes": 10485
+        },
+        {
+          "path": "website/docs/r/vpc_endpoint.html.markdown",
+          "bytes": 14264
+        },
+        {
+          "path": "website/docs/r/flow_log.html.markdown",
+          "bytes": 12936
+        },
+        {
+          "path": "website/docs/r/budgets_budget.html.markdown",
+          "bytes": 19525
+        },
+        {
+          "path": "website/docs/r/ce_anomaly_monitor.html.markdown",
+          "bytes": 3329
+        },
+        {
+          "path": "website/docs/r/ce_anomaly_subscription.html.markdown",
+          "bytes": 8727
+        },
+        {
+          "path": "website/docs/r/autoscaling_group.html.markdown",
+          "bytes": 48213
+        },
+        {
+          "path": "website/docs/r/autoscaling_schedule.html.markdown",
+          "bytes": 4435
+        },
+        {
+          "path": "website/docs/r/launch_template.html.markdown",
+          "bytes": 35793
+        }
+      ]
+    },
+    {
+      "name": "Terragrunt docs",
+      "repo": "gruntwork-io/terragrunt",
+      "sha": "b0350a15a6f9793c3e3d85266f4d7c6bb6900fa4",
+      "licence": "MIT",
+      "files": [
+        {
+          "path": "docs/src/content/docs/03-features/01-units/index.mdx",
+          "bytes": 18774
+        },
+        {
+          "path": "docs/src/content/docs/03-features/01-units/02-includes.mdx",
+          "bytes": 16309
+        },
+        {
+          "path": "docs/src/content/docs/03-features/01-units/04-extra-arguments.mdx",
+          "bytes": 9251
+        },
+        {
+          "path": "docs/src/content/docs/03-features/01-units/06-hooks.mdx",
+          "bytes": 10480
+        },
+        {
+          "path": "docs/src/content/docs/03-features/01-units/10-importing.mdx",
+          "bytes": 9552
+        },
+        {
+          "path": "docs/src/content/docs/03-features/01-units/12-lock-files.mdx",
+          "bytes": 4379
+        },
+        {
+          "path": "docs/src/content/docs/03-features/01-units/State Backend/index.mdx",
+          "bytes": 12394
+        },
+        {
+          "path": "docs/src/content/docs/03-features/01-units/State Backend/s3.mdx",
+          "bytes": 13791
+        },
+        {
+          "path": "docs/src/content/docs/03-features/02-stacks/index.mdx",
+          "bytes": 1901
+        },
+        {
+          "path": "docs/src/content/docs/03-features/02-stacks/02-implicit.mdx",
+          "bytes": 3105
+        },
+        {
+          "path": "docs/src/content/docs/03-features/02-stacks/03-explicit.mdx",
+          "bytes": 19390
+        },
+        {
+          "path": "docs/src/content/docs/03-features/02-stacks/06-run-queue.mdx",
+          "bytes": 15054
+        },
+        {
+          "path": "docs/src/content/docs/04-reference/01-hcl/02-blocks.mdx",
+          "bytes": 57088
+        },
+        {
+          "path": "docs/src/content/docs/04-reference/01-hcl/04-functions.mdx",
+          "bytes": 40980
+        },
+        {
+          "path": "docs/src/content/docs/04-reference/01-hcl/blocks/remote_state.md",
+          "bytes": 288
+        },
+        {
+          "path": "docs/src/content/docs/04-reference/01-hcl/blocks/terraform.md",
+          "bytes": 279
+        },
+        {
+          "path": "docs/src/content/docs/08-migrate/01-migrating-from-root-terragrunt-hcl.md",
+          "bytes": 7230
+        },
+        {
+          "path": "docs/src/content/docs/02-guides/01-terralith-to-terragrunt/02-overview.md",
+          "bytes": 3050
+        },
+        {
+          "path": "docs/src/content/docs/02-guides/01-terralith-to-terragrunt/05-step-2-refactoring.mdx",
+          "bytes": 16962
+        },
+        {
+          "path": "docs/src/content/docs/02-guides/01-terralith-to-terragrunt/08-step-5-adding-terragrunt.mdx",
+          "bytes": 14635
+        }
+      ]
+    },
+    {
+      "name": "Terraformer docs",
+      "repo": "GoogleCloudPlatform/terraformer",
+      "sha": "1807affdde9e392b8b8749932d8cd1daa5e4986e",
+      "licence": "Apache-2.0",
+      "files": [
+        {
+          "path": "README.md",
+          "bytes": 18879
+        },
+        {
+          "path": "docs/aws.md",
+          "bytes": 12880
+        }
+      ]
+    },
+    {
+      "name": "Kyverno docs",
+      "repo": "kyverno/website",
+      "sha": "eb7c94bb94153c0501855b251c9ba2e723b419df",
+      "licence": "Apache-2.0",
+      "files": [
+        {
+          "path": "src/content/docs/docs/policy-types/validating-policy.mdx",
+          "bytes": 13358
+        },
+        {
+          "path": "src/content/docs/docs/guides/testing-policies.md",
+          "bytes": 5966
+        },
+        {
+          "path": "src/content/docs/docs/kyverno-cli/reference/kyverno_apply.md",
+          "bytes": 9111
+        },
+        {
+          "path": "src/content/docs/docs/kyverno-cli/reference/kyverno_test.md",
+          "bytes": 4346
+        },
+        {
+          "path": "src/content/docs/docs/subprojects/kyverno-cli.mdx",
+          "bytes": 80984
+        }
+      ]
+    },
+    {
+      "name": "Pulumi docs",
+      "repo": "pulumi/docs",
+      "sha": "aba20193578089d9445bafb1b8bf8224ea96ea23",
+      "licence": "Apache-2.0",
+      "files": [
+        {
+          "path": "content/docs/iac/concepts/components/_index.md",
+          "bytes": 17609
+        },
+        {
+          "path": "content/docs/iac/concepts/stacks.md",
+          "bytes": 45512
+        },
+        {
+          "path": "content/docs/iac/concepts/config.md",
+          "bytes": 29784
+        },
+        {
+          "path": "content/docs/iac/concepts/state-and-backends.md",
+          "bytes": 17405
+        },
+        {
+          "path": "content/docs/iac/concepts/inputs-outputs/_index.md",
+          "bytes": 17097
+        },
+        {
+          "path": "content/docs/iac/concepts/inputs-outputs/apply.md",
+          "bytes": 33622
+        },
+        {
+          "path": "content/docs/iac/concepts/resources/options/import.md",
+          "bytes": 8134
+        },
+        {
+          "path": "content/docs/iac/concepts/resources/options/protect.md",
+          "bytes": 6102
+        },
+        {
+          "path": "content/docs/iac/concepts/resources/options/ignorechanges.md",
+          "bytes": 18553
+        },
+        {
+          "path": "content/docs/iac/concepts/resources/options/aliases.md",
+          "bytes": 11876
+        },
+        {
+          "path": "content/docs/iac/guides/migration/import/_index.md",
+          "bytes": 38453
+        },
+        {
+          "path": "content/docs/iac/guides/testing/_index.md",
+          "bytes": 6639
+        },
+        {
+          "path": "content/docs/iac/guides/testing/unit.md",
+          "bytes": 54022
+        }
+      ]
+    }
+  ]
+}

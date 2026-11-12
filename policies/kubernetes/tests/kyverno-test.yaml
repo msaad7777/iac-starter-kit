@@ -1,0 +1,51 @@
+apiVersion: cli.kyverno.io/v1alpha1
+kind: Test
+metadata:
+  name: ai-workload-policies
+policies:
+  - ../require-cost-labels.yaml
+  - ../gpu-workload-guardrails.yaml
+  - ../require-pinned-images.yaml
+resources:
+  - resources.yaml
+results:
+  - policy: require-cost-labels
+    kind: Deployment
+    resources: [llm-server-good, embedder-on-demand]
+    result: pass
+  - policy: require-cost-labels
+    kind: Deployment
+    resources: [llm-server-bad]
+    result: fail
+  - policy: require-cost-labels
+    kind: Job
+    resources: [finetune-critical, batch-untagged]
+    result: pass
+  - policy: gpu-workload-guardrails
+    kind: Deployment
+    resources: [llm-server-good]
+    result: pass
+  - policy: gpu-workload-guardrails
+    kind: Deployment
+    resources: [llm-server-bad, embedder-on-demand]
+    result: fail
+  - policy: gpu-workload-guardrails
+    kind: Job
+    resources: [finetune-critical, batch-untagged]
+    result: pass
+  - policy: require-pinned-images
+    kind: Deployment
+    resources: [llm-server-good, embedder-on-demand]
+    result: pass
+  - policy: require-pinned-images
+    kind: Deployment
+    resources: [llm-server-bad]
+    result: fail
+  - policy: require-pinned-images
+    kind: Job
+    resources: [finetune-critical]
+    result: pass
+  - policy: require-pinned-images
+    kind: Job
+    resources: [batch-untagged]
+    result: fail

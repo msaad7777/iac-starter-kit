@@ -1,0 +1,46 @@
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  name: gpu-workload-guardrails
+  annotations:
+    policies.kyverno.io/title: GPU workload guardrails
+    policies.kyverno.io/description: >-
+      Containers that request GPUs must set a matching GPU limit, and GPU pods must run on
+      spot capacity unless they are labelled workload-tier=critical.
+spec:
+  validationActions: [Deny]
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [apps]
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE]
+        resources: [deployments, statefulsets]
+      - apiGroups: [batch]
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE]
+        resources: [jobs]
+  variables:
+    - name: containers
+      expression: "object.spec.template.spec.containers"
+    - name: gpuContainers
+      expression: >-
+        variables.containers.filter(c,
+          has(c.resources) &&
+          ((has(c.resources.requests) && 'nvidia.com/gpu' in c.resources.requests) ||
+           (has(c.resources.limits) && 'nvidia.com/gpu' in c.resources.limits)))
+    - name: labels
+      expression: "has(object.spec.template.metadata.labels) ? object.spec.template.metadata.labels : {}"
+    - name: nodeSelector
+      expression: "has(object.spec.template.spec.nodeSelector) ? object.spec.template.spec.nodeSelector : {}"
+  validations:
+    - expression: >-
+        variables.gpuContainers.all(c,
+          has(c.resources.limits) && 'nvidia.com/gpu' in c.resources.limits &&
+          (!has(c.resources.requests) || !('nvidia.com/gpu' in c.resources.requests) ||
+           c.resources.requests['nvidia.com/gpu'] == c.resources.limits['nvidia.com/gpu']))
+      message: "GPU containers must set an nvidia.com/gpu limit equal to the request"
+    - expression: >-
+        size(variables.gpuContainers) == 0 ||
+        variables.labels[?'workload-tier'].orValue('') == 'critical' ||
+        variables.nodeSelector[?'karpenter.sh/capacity-type'].orValue('') == 'spot'
+      message: "GPU pods must select spot capacity (karpenter.sh/capacity-type=spot) unless labelled workload-tier=critical"

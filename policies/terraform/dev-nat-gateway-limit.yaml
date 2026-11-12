@@ -1,0 +1,25 @@
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  name: dev-nat-gateway-limit
+  annotations:
+    policies.kyverno.io/title: One NAT gateway in dev
+    policies.kyverno.io/description: >-
+      Each NAT gateway is billed per hour and per GB. Dev and staging share one; only prod
+      runs one per availability zone.
+spec:
+  evaluation:
+    mode: JSON
+  variables:
+    - name: dev_nats
+      expression: >-
+        object.resource_changes.filter(rc,
+          rc.type == 'aws_nat_gateway' &&
+          rc.change.actions.exists(a, a == 'create' || a == 'update') &&
+          rc.change.after.tags_all != null &&
+          rc.change.after.tags_all.?environment.orValue('') in ['dev', 'staging'])
+  validations:
+    - expression: "size(variables.dev_nats) <= 1"
+      messageExpression: >-
+        string(size(variables.dev_nats)) + ' NAT gateways planned outside prod (limit 1): ' +
+        variables.dev_nats.map(rc, rc.address).join(', ')

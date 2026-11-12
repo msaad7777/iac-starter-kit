@@ -1,0 +1,11 @@
+{"id": "u01", "category": "off_topic", "question": "What is the capital of Australia?"}
+{"id": "u02", "category": "off_topic", "question": "Write me a Python function that reverses a linked list."}
+{"id": "u03", "category": "near_miss", "question": "What is the hourly price of a g6.xlarge spot instance in us-east-1?"}
+{"id": "u04", "category": "near_miss", "question": "How do I configure the Google Cloud provider's default labels in Terraform?"}
+{"id": "u06", "category": "near_miss", "question": "Which Karpenter NodePool settings consolidate underused GPU nodes?"}
+{"id": "u07", "category": "near_miss", "question": "How do I install the NVIDIA GPU Operator with Helm?"}
+{"id": "u08", "category": "near_miss", "question": "How do I make Checkov skip a specific check in my Terraform code?"}
+{"id": "u09", "category": "near_miss", "question": "How do I write an OPA Rego policy with conftest to check a Terraform plan?"}
+{"id": "u10", "category": "near_miss", "question": "What is the default quota of Elastic IP addresses per region in a new AWS account?"}
+{"id": "u11", "category": "near_miss", "question": "How do I configure the CDK for Terraform (CDKTF) to synthesize a stack in TypeScript?"}
+{"id": "u12", "category": "near_miss", "question": "What is the Pulumi Cloud price per resource per month?"}

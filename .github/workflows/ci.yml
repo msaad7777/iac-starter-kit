@@ -1,0 +1,120 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  TF_VERSION: 1.11.4
+  TG_VERSION: 1.2.2
+  KYVERNO_VERSION: v1.20.0
+
+jobs:
+  modules:
+    name: Terraform modules (fmt, validate, test)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+          terraform_wrapper: false
+      - run: terraform fmt -recursive -check modules brownfield/discover brownfield/adopt policies
+      - name: validate and test every module (mock providers, no cloud account)
+        run: |
+          for m in modules/*/; do
+            echo "::group::$m"
+            (cd "$m" && terraform init -input=false -backend=false >/dev/null && terraform validate && terraform test)
+            echo "::endgroup::"
+          done
+
+  security:
+    name: Trivy misconfiguration scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          scan-type: config
+          scan-ref: modules
+          exit-code: "1"
+
+  plans-and-policies:
+    name: Terragrunt plans, Kyverno policies, brownfield demo (against Moto)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+          terraform_wrapper: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: install Moto, boto3, Terragrunt and the Kyverno CLI
+        run: |
+          pip install "moto[server]==5.1.*" boto3
+          curl -sSfL -o /usr/local/bin/terragrunt \
+            "https://github.com/gruntwork-io/terragrunt/releases/download/v${TG_VERSION}/terragrunt_linux_amd64"
+          chmod +x /usr/local/bin/terragrunt
+          curl -sSfL "https://github.com/kyverno/kyverno/releases/download/${KYVERNO_VERSION}/kyverno-cli_${KYVERNO_VERSION}_linux_x86_64.tar.gz" \
+            | tar -xz -C /usr/local/bin kyverno
+          terragrunt --version && kyverno version
+      - name: start Moto (local AWS mock)
+        run: |
+          # S3 Control prefixes the host with the account ID; make Moto's default account resolve.
+          echo "127.0.0.1 123456789012.localhost" | sudo tee -a /etc/hosts
+          moto_server -H 127.0.0.1 -p 5000 > moto.log 2>&1 &
+          for i in $(seq 1 30); do curl -sf http://127.0.0.1:5000/moto-api/ >/dev/null && break; sleep 1; done
+      - run: terragrunt hcl format --check --working-dir live
+      - name: plan dev and prod to JSON
+        run: |
+          source scripts/moto-env.sh
+          scripts/plan-json.sh dev
+          scripts/plan-json.sh prod
+      - name: every plan passes every policy
+        run: scripts/check-policies.sh
+      - name: every policy fires on the non-compliant plan
+        run: source scripts/moto-env.sh && scripts/test-policies.sh
+      - name: brownfield demo (seed, discover, import, adopt)
+        run: scripts/brownfield-demo.sh
+      - if: failure()
+        run: tail -50 moto.log
+
+  kubernetes-policies:
+    name: Kyverno Kubernetes policy tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          curl -sSfL "https://github.com/kyverno/kyverno/releases/download/${KYVERNO_VERSION}/kyverno-cli_${KYVERNO_VERSION}_linux_x86_64.tar.gz" \
+            | tar -xz -C /usr/local/bin kyverno
+          kyverno test policies/kubernetes/tests
+
+  pulumi:
+    name: Pulumi unit tests (mocks)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pulumi
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --frozen
+      - run: uv run pytest -q
+
+  assistant:
+    name: Assistant unit tests (no models needed)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: assistant
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --frozen
+      - run: uv run pytest -q

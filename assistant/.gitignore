@@ -1,0 +1,4 @@
+data/corpus/
+data/chroma/
+data/chunks.jsonl
+eval/results/*.log

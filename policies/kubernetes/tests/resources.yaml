@@ -1,0 +1,91 @@
+# Compliant: vLLM server on spot GPUs, labelled, pinned image, GPU limit = request.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llm-server-good
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: llm-server}
+  template:
+    metadata:
+      labels: {app: llm-server, cost-center: CC-1234, team: ml-platform}
+    spec:
+      nodeSelector:
+        karpenter.sh/capacity-type: spot
+      containers:
+        - name: vllm
+          image: vllm/vllm-openai:v0.9.2
+          resources:
+            requests: {nvidia.com/gpu: "1", memory: 24Gi}
+            limits: {nvidia.com/gpu: "1", memory: 24Gi}
+---
+# Compliant: critical on-demand GPU job is allowed off spot.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: finetune-critical
+spec:
+  template:
+    metadata:
+      labels: {cost-center: CC-1234, team: ml-research, workload-tier: critical}
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: train
+          image: ghcr.io/acme/trainer@sha256:2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae
+          resources:
+            limits: {nvidia.com/gpu: "4"}
+---
+# Non-compliant: no cost labels, :latest image, GPU request without limit, not on spot.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llm-server-bad
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: llm-bad}
+  template:
+    metadata:
+      labels: {app: llm-bad}
+    spec:
+      containers:
+        - name: vllm
+          image: vllm/vllm-openai:latest
+          resources:
+            requests: {nvidia.com/gpu: "1"}
+---
+# Non-compliant: GPU limit set but pod is on on-demand nodes without the critical label.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: embedder-on-demand
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: embedder}
+  template:
+    metadata:
+      labels: {app: embedder, cost-center: CC-1234, team: search}
+    spec:
+      containers:
+        - name: tei
+          image: ghcr.io/huggingface/text-embeddings-inference:1.7
+          resources:
+            limits: {nvidia.com/gpu: "1"}
+---
+# Non-compliant: untagged image (implicitly latest) on a CPU-only job.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: batch-untagged
+spec:
+  template:
+    metadata:
+      labels: {cost-center: CC-1234, team: data}
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: etl
+          image: python

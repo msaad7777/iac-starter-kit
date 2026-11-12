@@ -1,0 +1,26 @@
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  name: require-cost-labels
+  annotations:
+    policies.kyverno.io/title: Require cost labels on workloads
+    policies.kyverno.io/description: >-
+      Workloads need cost-center and team labels on the pod template, so tools such as
+      OpenCost or Kubecost can split cluster spend by team.
+spec:
+  validationActions: [Deny]
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [apps]
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE]
+        resources: [deployments, statefulsets]
+      - apiGroups: [batch]
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE]
+        resources: [jobs]
+  validations:
+    - expression: >-
+        ['cost-center', 'team'].all(k,
+          has(object.spec.template.metadata.labels) && k in object.spec.template.metadata.labels)
+      message: "pod template must have cost-center and team labels"

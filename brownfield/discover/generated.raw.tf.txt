@@ -1,0 +1,109 @@
+# Raw output of `terraform plan -generate-config-out=generated.tf` for the demo estate (AWS provider 6.73).
+# Kept as evidence: it does not plan as-is. See legacy.tf for the reviewed version.
+
+# __generated__ by Terraform
+# Please review these resources and move them into your main configuration files.
+
+# __generated__ by Terraform
+resource "aws_subnet" "legacy_app" {
+  assign_ipv6_address_on_creation                = false
+  availability_zone                              = "us-east-1a"
+  availability_zone_id                           = "use1-az6"
+  cidr_block                                     = "10.30.1.0/24"
+  customer_owned_ipv4_pool                       = null
+  enable_dns64                                   = false
+  enable_lni_at_device_index                     = 0
+  enable_resource_name_dns_a_record_on_launch    = false
+  enable_resource_name_dns_aaaa_record_on_launch = false
+  ipv4_ipam_pool_id                              = null
+  ipv4_netmask_length                            = null
+  ipv6_cidr_block                                = null
+  ipv6_ipam_pool_id                              = null
+  ipv6_native                                    = false
+  ipv6_netmask_length                            = null
+  map_customer_owned_ip_on_launch                = false
+  map_public_ip_on_launch                        = false
+  outpost_arn                                    = null
+  private_dns_hostname_type_on_launch            = null
+  region                                         = "us-east-1"
+  tags = {
+    Name = "legacy-app"
+  }
+  tags_all = {
+    Name = "legacy-app"
+  }
+  vpc_id = "vpc-846cefcf35ea31bc3"
+}
+
+# __generated__ by Terraform from "sg-a08970bd719d4bc6e"
+resource "aws_security_group" "legacy_web" {
+  description = "made by hand"
+  egress = [{
+    cidr_blocks      = ["0.0.0.0/0"]
+    description      = ""
+    from_port        = 0
+    ipv6_cidr_blocks = []
+    prefix_list_ids  = []
+    protocol         = "-1"
+    security_groups  = []
+    self             = false
+    to_port          = 0
+  }]
+  ingress = [{
+    cidr_blocks      = ["0.0.0.0/0"]
+    description      = ""
+    from_port        = 443
+    ipv6_cidr_blocks = []
+    prefix_list_ids  = []
+    protocol         = "tcp"
+    security_groups  = []
+    self             = false
+    to_port          = 443
+  }]
+  name                   = "legacy-web"
+  name_prefix            = null
+  region                 = "us-east-1"
+  revoke_rules_on_delete = null
+  tags                   = {}
+  tags_all               = {}
+  vpc_id                 = "vpc-846cefcf35ea31bc3"
+}
+
+# __generated__ by Terraform
+resource "aws_vpc" "legacy_vpc" {
+  assign_generated_ipv6_cidr_block     = false
+  cidr_block                           = "10.30.0.0/16"
+  enable_dns_hostnames                 = false
+  enable_dns_support                   = true
+  enable_network_address_usage_metrics = false
+  instance_tenancy                     = "default"
+  ipv4_ipam_pool_id                    = null
+  ipv4_netmask_length                  = null
+  ipv6_cidr_block                      = null
+  ipv6_cidr_block_network_border_group = null
+  ipv6_ipam_pool_id                    = null
+  ipv6_netmask_length                  = 0
+  region                               = "us-east-1"
+  tags = {
+    Name = "legacy-vpc"
+  }
+  tags_all = {
+    Name = "legacy-vpc"
+  }
+}
+
+# __generated__ by Terraform from "acme-legacy-reports"
+resource "aws_s3_bucket" "acme_legacy_reports" {
+  bucket              = "acme-legacy-reports"
+  bucket_namespace    = "global"
+  bucket_prefix       = null
+  force_destroy       = false
+  object_lock_enabled = false
+  region              = "us-east-1"
+  tags = {
+    team = "analytics"
+  }
+  tags_all = {
+    team = "analytics"
+  }
+}

@@ -1,0 +1,27 @@
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  name: require-pinned-images
+  annotations:
+    policies.kyverno.io/title: Require pinned images
+    policies.kyverno.io/description: >-
+      Images must use a version tag or digest, never :latest or no tag. A model server that
+      silently pulls a new image can change answers, memory use and cost overnight.
+spec:
+  validationActions: [Deny]
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [apps]
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE]
+        resources: [deployments, statefulsets]
+      - apiGroups: [batch]
+        apiVersions: [v1]
+        operations: [CREATE, UPDATE]
+        resources: [jobs]
+  validations:
+    - expression: >-
+        object.spec.template.spec.containers.all(c,
+          c.image.contains('@sha256:') ||
+          (c.image.split('/')[size(c.image.split('/')) - 1].contains(':') && !c.image.endsWith(':latest')))
+      message: "images must be pinned to a version tag or digest (not :latest)"

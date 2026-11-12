@@ -1,0 +1,12 @@
+[project]
+name = "kit-pulumi"
+version = "0.1.0"
+description = "Pulumi (Python) version of the kit's tags and s3-bucket modules"
+requires-python = ">=3.12,<3.13"
+dependencies = ["pulumi>=3.200,<4", "pulumi-aws>=7,<8"]
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]

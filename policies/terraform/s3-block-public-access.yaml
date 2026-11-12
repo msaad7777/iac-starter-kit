@@ -1,0 +1,37 @@
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  name: s3-block-public-access
+  annotations:
+    policies.kyverno.io/title: S3 buckets must block public access
+    policies.kyverno.io/description: >-
+      Every bucket a plan creates or adopts needs an aws_s3_bucket_public_access_block in the
+      same module with all four settings on. Public content belongs behind CloudFront.
+spec:
+  evaluation:
+    mode: JSON
+  variables:
+    - name: buckets
+      expression: >-
+        object.resource_changes.filter(rc,
+          rc.type == 'aws_s3_bucket' &&
+          rc.change.actions.exists(a, a == 'create' || a == 'update'))
+    - name: good_blocks
+      expression: >-
+        object.resource_changes.filter(rc,
+          rc.type == 'aws_s3_bucket_public_access_block' &&
+          rc.change.after != null &&
+          rc.change.after.block_public_acls == true &&
+          rc.change.after.block_public_policy == true &&
+          rc.change.after.ignore_public_acls == true &&
+          rc.change.after.restrict_public_buckets == true)
+    - name: exposed
+      expression: >-
+        variables.buckets.filter(b,
+          !variables.good_blocks.exists(p,
+            p.?module_address.orValue('') == b.?module_address.orValue('')))
+  validations:
+    - expression: "size(variables.exposed) == 0"
+      messageExpression: >-
+        'bucket without a full public access block: ' +
+        variables.exposed.map(rc, rc.address).join(', ')

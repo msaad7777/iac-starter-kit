@@ -1,0 +1,34 @@
+[project]
+name = "kit-assistant"
+version = "0.1.0"
+description = "Ask the IaC starter kit: hybrid RAG over the kit and the docs of the tools it uses, with citations and declines"
+readme = "README.md"
+authors = [{ name = "Mohammed Saad", email = "59375560+msaad7777@users.noreply.github.com" }]
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "chromadb>=1.0",
+    "fastapi>=0.115",
+    "fastembed>=0.7",
+    "httpx>=0.28",
+    "langchain-chroma>=1.0",
+    "langchain-classic>=1.0",
+    "langchain-core>=1.0",
+    "langchain-ollama>=1.0",
+    "langchain-text-splitters>=1.0",
+    "rank-bm25>=0.2.2",
+    "uvicorn>=0.34",
+]
+
+[project.scripts]
+kit-assistant = "kit_assistant:main"
+
+[dependency-groups]
+dev = ["pytest>=8"]
+eval = ["langchain-community==0.4.1", "ragas==0.4.3"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/kit_assistant"]

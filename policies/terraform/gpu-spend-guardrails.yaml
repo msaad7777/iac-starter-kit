@@ -1,0 +1,43 @@
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  name: gpu-spend-guardrails
+  annotations:
+    policies.kyverno.io/title: GPU spend guardrails
+    policies.kyverno.io/description: >-
+      GPU Auto Scaling groups must be spot-first (at most 50 percent on-demand above the
+      base). In dev they must also scale to zero on a schedule, because idle GPU hours are
+      the most common waste in AI infrastructure.
+spec:
+  evaluation:
+    mode: JSON
+  variables:
+    - name: gpu_asgs
+      expression: >-
+        object.resource_changes.filter(rc,
+          rc.type == 'aws_autoscaling_group' &&
+          rc.change.actions.exists(a, a == 'create' || a == 'update') &&
+          size(rc.change.after.mixed_instances_policy) > 0 &&
+          rc.change.after.mixed_instances_policy[0].launch_template[0].override.exists(o,
+            o.instance_type.matches('^(g[0-9]|p[0-9]|inf[0-9]|trn[0-9])')))
+    - name: too_much_on_demand
+      expression: >-
+        variables.gpu_asgs.filter(rc,
+          rc.change.after.mixed_instances_policy[0].instances_distribution[0].on_demand_percentage_above_base_capacity > 50)
+    - name: dev_without_schedule
+      expression: >-
+        variables.gpu_asgs.filter(rc,
+          rc.change.after.tag.exists(t, t.key == 'environment' && t.value == 'dev') &&
+          !object.resource_changes.exists(s,
+            s.type == 'aws_autoscaling_schedule' &&
+            s.?module_address.orValue('') == rc.?module_address.orValue('') &&
+            s.change.after != null && s.change.after.desired_capacity == 0))
+  validations:
+    - expression: "size(variables.too_much_on_demand) == 0"
+      messageExpression: >-
+        'GPU group is more than 50 percent on-demand above base: ' +
+        variables.too_much_on_demand.map(rc, rc.address).join(', ')
+    - expression: "size(variables.dev_without_schedule) == 0"
+      messageExpression: >-
+        'dev GPU group has no scale-to-zero schedule: ' +
+        variables.dev_without_schedule.map(rc, rc.address).join(', ')

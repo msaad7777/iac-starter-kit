@@ -1,0 +1,6 @@
+name: kit-pulumi
+runtime:
+  name: python
+  options:
+    toolchain: uv
+description: Pulumi version of the IaC starter kit's tags and s3-bucket modules

@@ -1,0 +1,28 @@
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  name: require-imdsv2
+  annotations:
+    policies.kyverno.io/title: Require IMDSv2
+    policies.kyverno.io/description: >-
+      Instances and launch templates must require session tokens for the instance metadata
+      service, which blocks SSRF-style theft of instance credentials.
+spec:
+  evaluation:
+    mode: JSON
+  variables:
+    - name: compute
+      expression: >-
+        object.resource_changes.filter(rc,
+          (rc.type == 'aws_launch_template' || rc.type == 'aws_instance') &&
+          rc.change.actions.exists(a, a == 'create' || a == 'update'))
+    - name: weak
+      expression: >-
+        variables.compute.filter(rc,
+          !('metadata_options' in rc.change.after) ||
+          size(rc.change.after.metadata_options) == 0 ||
+          rc.change.after.metadata_options[0].http_tokens != 'required')
+  validations:
+    - expression: "size(variables.weak) == 0"
+      messageExpression: >-
+        'IMDSv2 not required: ' + variables.weak.map(rc, rc.address).join(', ')

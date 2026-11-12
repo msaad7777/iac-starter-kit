@@ -1,0 +1,41 @@
+apiVersion: policies.kyverno.io/v1
+kind: ValidatingPolicy
+metadata:
+  name: require-finops-tags
+  annotations:
+    policies.kyverno.io/title: Require FinOps tags
+    policies.kyverno.io/description: >-
+      Every taggable resource a plan creates or updates must carry cost-center, owner and
+      environment (directly or through provider default_tags), so cost reports can be split
+      by team and environment. Auto Scaling groups must also propagate cost-center to instances.
+spec:
+  evaluation:
+    mode: JSON
+  variables:
+    - name: required
+      expression: "['cost-center', 'owner', 'environment']"
+    - name: changing
+      expression: >-
+        object.resource_changes.filter(rc,
+          rc.change.actions.exists(a, a == 'create' || a == 'update') &&
+          rc.change.after != null)
+    - name: untagged
+      expression: >-
+        variables.changing.filter(rc,
+          'tags_all' in rc.change.after &&
+          !variables.required.all(k,
+            rc.change.after.tags_all != null && k in rc.change.after.tags_all))
+    - name: asg_untagged
+      expression: >-
+        variables.changing.filter(rc,
+          rc.type == 'aws_autoscaling_group' &&
+          !rc.change.after.tag.exists(t, t.key == 'cost-center' && t.propagate_at_launch == true))
+  validations:
+    - expression: "size(variables.untagged) == 0"
+      messageExpression: >-
+        'missing cost-center, owner or environment tag: ' +
+        variables.untagged.map(rc, rc.address).join(', ')
+    - expression: "size(variables.asg_untagged) == 0"
+      messageExpression: >-
+        'Auto Scaling group does not propagate cost-center to instances: ' +
+        variables.asg_untagged.map(rc, rc.address).join(', ')

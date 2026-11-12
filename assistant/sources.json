@@ -1,0 +1,164 @@
+{
+  "kit": {
+    "description": "This repository: guides, modules, Terragrunt layout, policies and brownfield scripts",
+    "licence": "MIT",
+    "include": [
+      "docs/*.md",
+      "modules/*/*.tf",
+      "live/root.hcl",
+      "live/_envcommon/*.hcl",
+      "live/prod/us-east-1/*/terragrunt.hcl",
+      "live/dev/us-east-1/*/terragrunt.hcl",
+      "policies/terraform/*.yaml",
+      "policies/kubernetes/*.yaml",
+      "brownfield/discover/discover.py",
+      "brownfield/discover/legacy.tf",
+      "brownfield/adopt/main.tf",
+      "brownfield/terraformer/run_terraformer.sh",
+      "pulumi/kit/*.py",
+      "scripts/*.sh"
+    ]
+  },
+  "external": [
+    {
+      "name": "OpenTofu docs",
+      "repo": "opentofu/opentofu",
+      "branch": "main",
+      "licence": "MPL-2.0",
+      "note": "Used for Terraform language concepts: HashiCorp's own docs have no open licence. OpenTofu keeps the language compatible.",
+      "paths": [
+        "website/docs/language/import/index.mdx",
+        "website/docs/language/import/generating-configuration.mdx",
+        "website/docs/language/modules/index.mdx",
+        "website/docs/language/modules/syntax.mdx",
+        "website/docs/language/modules/sources.mdx",
+        "website/docs/language/modules/develop/index.mdx",
+        "website/docs/language/modules/develop/structure.mdx",
+        "website/docs/language/modules/develop/composition.mdx",
+        "website/docs/language/modules/develop/providers.mdx",
+        "website/docs/language/modules/develop/refactoring.mdx",
+        "website/docs/language/modules/develop/publish.mdx",
+        "website/docs/language/meta-arguments/count.mdx",
+        "website/docs/language/meta-arguments/for_each.mdx",
+        "website/docs/language/meta-arguments/lifecycle.mdx",
+        "website/docs/language/meta-arguments/depends_on.mdx",
+        "website/docs/language/state/index.mdx",
+        "website/docs/language/state/purpose.mdx",
+        "website/docs/language/state/backends.mdx",
+        "website/docs/language/state/locking.mdx",
+        "website/docs/language/state/remote.mdx",
+        "website/docs/language/state/remote-state-data.mdx",
+        "website/docs/language/state/sensitive-data.mdx",
+        "website/docs/language/state/workspaces.mdx",
+        "website/docs/language/state/import.mdx",
+        "website/docs/language/settings/backends/s3.mdx",
+        "website/docs/language/values/variables.mdx",
+        "website/docs/language/values/outputs.mdx",
+        "website/docs/language/values/locals.mdx",
+        "website/docs/cli/commands/plan.mdx",
+        "website/docs/cli/commands/import.mdx",
+        "website/docs/cli/commands/state/mv.mdx",
+        "website/docs/cli/commands/test/index.mdx"
+      ]
+    },
+    {
+      "name": "Terraform AWS provider docs",
+      "repo": "hashicorp/terraform-provider-aws",
+      "branch": "main",
+      "licence": "MPL-2.0",
+      "paths": [
+        "website/docs/index.html.markdown",
+        "website/docs/guides/resource-tagging.html.markdown",
+        "website/docs/d/default_tags.html.markdown",
+        "website/docs/r/s3_bucket.html.markdown",
+        "website/docs/r/s3_bucket_public_access_block.html.markdown",
+        "website/docs/r/s3_bucket_lifecycle_configuration.html.markdown",
+        "website/docs/r/s3_bucket_server_side_encryption_configuration.html.markdown",
+        "website/docs/r/s3_bucket_versioning.html.markdown",
+        "website/docs/r/vpc.html.markdown",
+        "website/docs/r/subnet.html.markdown",
+        "website/docs/r/nat_gateway.html.markdown",
+        "website/docs/r/vpc_endpoint.html.markdown",
+        "website/docs/r/flow_log.html.markdown",
+        "website/docs/r/budgets_budget.html.markdown",
+        "website/docs/r/ce_anomaly_monitor.html.markdown",
+        "website/docs/r/ce_anomaly_subscription.html.markdown",
+        "website/docs/r/autoscaling_group.html.markdown",
+        "website/docs/r/autoscaling_schedule.html.markdown",
+        "website/docs/r/launch_template.html.markdown"
+      ]
+    },
+    {
+      "name": "Terragrunt docs",
+      "repo": "gruntwork-io/terragrunt",
+      "branch": "main",
+      "licence": "MIT",
+      "paths": [
+        "docs/src/content/docs/03-features/01-units/index.mdx",
+        "docs/src/content/docs/03-features/01-units/02-includes.mdx",
+        "docs/src/content/docs/03-features/01-units/04-extra-arguments.mdx",
+        "docs/src/content/docs/03-features/01-units/06-hooks.mdx",
+        "docs/src/content/docs/03-features/01-units/10-importing.mdx",
+        "docs/src/content/docs/03-features/01-units/12-lock-files.mdx",
+        "docs/src/content/docs/03-features/01-units/State Backend/index.mdx",
+        "docs/src/content/docs/03-features/01-units/State Backend/s3.mdx",
+        "docs/src/content/docs/03-features/02-stacks/index.mdx",
+        "docs/src/content/docs/03-features/02-stacks/02-implicit.mdx",
+        "docs/src/content/docs/03-features/02-stacks/03-explicit.mdx",
+        "docs/src/content/docs/03-features/02-stacks/06-run-queue.mdx",
+        "docs/src/content/docs/04-reference/01-hcl/02-blocks.mdx",
+        "docs/src/content/docs/04-reference/01-hcl/04-functions.mdx",
+        "docs/src/content/docs/04-reference/01-hcl/blocks/remote_state.md",
+        "docs/src/content/docs/04-reference/01-hcl/blocks/terraform.md",
+        "docs/src/content/docs/08-migrate/01-migrating-from-root-terragrunt-hcl.md",
+        "docs/src/content/docs/02-guides/01-terralith-to-terragrunt/02-overview.md",
+        "docs/src/content/docs/02-guides/01-terralith-to-terragrunt/05-step-2-refactoring.mdx",
+        "docs/src/content/docs/02-guides/01-terralith-to-terragrunt/08-step-5-adding-terragrunt.mdx"
+      ]
+    },
+    {
+      "name": "Terraformer docs",
+      "repo": "GoogleCloudPlatform/terraformer",
+      "branch": "master",
+      "licence": "Apache-2.0",
+      "paths": [
+        "README.md",
+        "docs/aws.md"
+      ]
+    },
+    {
+      "name": "Kyverno docs",
+      "repo": "kyverno/website",
+      "branch": "main",
+      "licence": "Apache-2.0",
+      "paths": [
+        "src/content/docs/docs/policy-types/validating-policy.mdx",
+        "src/content/docs/docs/guides/testing-policies.md",
+        "src/content/docs/docs/kyverno-cli/reference/kyverno_apply.md",
+        "src/content/docs/docs/kyverno-cli/reference/kyverno_test.md",
+        "src/content/docs/docs/subprojects/kyverno-cli.mdx"
+      ]
+    },
+    {
+      "name": "Pulumi docs",
+      "repo": "pulumi/docs",
+      "branch": "master",
+      "licence": "Apache-2.0",
+      "paths": [
+        "content/docs/iac/concepts/components/_index.md",
+        "content/docs/iac/concepts/stacks.md",
+        "content/docs/iac/concepts/config.md",
+        "content/docs/iac/concepts/state-and-backends.md",
+        "content/docs/iac/concepts/inputs-outputs/_index.md",
+        "content/docs/iac/concepts/inputs-outputs/apply.md",
+        "content/docs/iac/concepts/resources/options/import.md",
+        "content/docs/iac/concepts/resources/options/protect.md",
+        "content/docs/iac/concepts/resources/options/ignorechanges.md",
+        "content/docs/iac/concepts/resources/options/aliases.md",
+        "content/docs/iac/guides/migration/import/_index.md",
+        "content/docs/iac/guides/testing/_index.md",
+        "content/docs/iac/guides/testing/unit.md"
+      ]
+    }
+  ]
+}
