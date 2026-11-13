@@ -1,0 +1,25 @@
+{"id": "pr-01", "request": "a staging environment for team payments with a private bucket and a $200 budget", "labels": [], "expect": "pr", "env": "staging", "modules": ["s3-bucket", "budget"], "budget": 200}
+{"id": "pr-02", "request": "Dev: a private bucket for the search team's embeddings, with a $150 monthly budget.", "labels": [], "expect": "pr", "env": "dev", "modules": ["s3-bucket", "budget"], "budget": 150}
+{"id": "pr-03", "request": "Give the data team in dev a network across two availability zones with one NAT gateway, and a budget of $300 a month.", "labels": [], "expect": "pr", "env": "dev", "modules": ["network", "budget"], "budget": 300}
+{"id": "pr-04", "request": "Staging network for team checkout with 3 availability zones; budget $400.", "labels": [], "expect": "pr", "env": "staging", "modules": ["network", "budget"], "budget": 400}
+{"id": "pr-05", "request": "A dev GPU inference group for team ml-research on spot instances, with a $500 budget. It should scale to zero outside office hours.", "labels": [], "expect": "pr", "env": "dev", "modules": ["network", "gpu-inference", "budget"], "budget": 500}
+{"id": "pr-06", "request": "Team analytics needs a dev bucket for raw logs that keeps old versions for 30 days, and a $120 budget.", "labels": [], "expect": "pr", "env": "dev", "modules": ["s3-bucket", "budget"], "budget": 120}
+{"id": "pr-07", "request": "Staging bucket for team mobile's release artifacts, $80/month budget.", "labels": [], "expect": "pr", "env": "staging", "modules": ["s3-bucket", "budget"], "budget": 80}
+{"id": "pr-08", "request": "Prod bucket for team payments' invoices, with a $1000 budget.", "labels": ["prod-approved"], "expect": "pr", "env": "prod", "modules": ["s3-bucket", "budget"], "budget": 1000}
+{"id": "pr-09", "request": "Prod network for team platform with a NAT gateway in each of three AZs, budget $2500.", "labels": ["prod-approved"], "expect": "pr", "env": "prod", "modules": ["network", "budget"], "budget": 2500}
+{"id": "pr-10", "request": "Dev GPU inference for team vision: at most 2 instances, 25 percent on-demand above base, office hours 9 to 18 Toronto time, $700 budget.", "labels": [], "expect": "pr", "env": "dev", "modules": ["network", "gpu-inference", "budget"], "budget": 700}
+{"id": "pr-11", "request": "Staging: team growth wants a bucket that moves objects to intelligent tiering after 60 days, and a $90 budget with alerts to growth-finops@example.com.", "labels": [], "expect": "pr", "env": "staging", "modules": ["s3-bucket", "budget"], "budget": 90}
+{"id": "pr-12", "request": "A dev environment for team support: a network with no NAT gateway, a private bucket, and a $60 budget.", "labels": [], "expect": "pr", "env": "dev", "modules": ["network", "s3-bucket", "budget"], "budget": 60}
+{"id": "pr-13", "request": "Staging GPU inference for team llm-serving, all spot, at most 3 instances, budget $1500.", "labels": [], "expect": "pr", "env": "staging", "modules": ["network", "gpu-inference", "budget"], "budget": 1500}
+{"id": "pr-14", "request": "Dev bucket for team docs with versioning turned off, and a $40 budget.", "labels": [], "expect": "pr", "env": "dev", "modules": ["s3-bucket", "budget"], "budget": 40}
+{"id": "ref-01", "request": "A public S3 bucket for team marketing's website in dev, $50 budget.", "labels": [], "expect": "refuse", "why": "public bucket"}
+{"id": "ref-02", "request": "Staging bucket for team payments.", "labels": [], "expect": "refuse", "why": "no budget"}
+{"id": "ref-03", "request": "A dev RDS Postgres database for team orders with a $300 budget.", "labels": [], "expect": "refuse", "why": "unknown module"}
+{"id": "ref-04", "request": "Prod bucket for team payments with a $500 budget.", "labels": [], "expect": "refuse", "why": "prod without approval label"}
+{"id": "ref-05", "request": "An EKS cluster in staging for team platform, $2000 budget.", "labels": [], "expect": "refuse", "why": "unknown module"}
+{"id": "ref-06", "request": "Make a dev bucket public-read so partners can download files; budget $100.", "labels": [], "expect": "refuse", "why": "public bucket"}
+{"id": "ref-07", "request": "Prod GPU inference for team ml with 100 percent on-demand instances, $5000 budget.", "labels": ["prod-approved"], "expect": "refuse", "why": "explicitly breaks the GPU spend policy"}
+{"id": "ref-08", "request": "Dev network for team qa with a NAT gateway in every AZ across 3 AZs, $100 budget.", "labels": [], "expect": "refuse", "why": "explicitly breaks the dev NAT policy"}
+{"id": "ref-09", "request": "A Lambda function in dev for team billing, budget $50.", "labels": [], "expect": "refuse", "why": "unknown module"}
+{"id": "ref-10", "request": "Staging environment for team payments with a private bucket; keep it cheap.", "labels": [], "expect": "refuse", "why": "no budget amount"}
+{"id": "ref-11", "request": "A $3000 monthly budget for team finance in prod.", "labels": [], "expect": "refuse", "why": "prod without approval label"}

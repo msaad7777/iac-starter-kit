@@ -5,7 +5,7 @@ A free, opinionated starting point for teams adopting infrastructure as code on 
 - **Greenfield:** no IaC yet. Agree tags, set up state, then build from tested modules with Terragrunt.
 - **Brownfield:** resources were made by hand (ClickOps) or by old scripts. Discover them, import them with zero changes, then adopt them into the standard modules.
 
-Cost control and GPU inference are built in, not bolted on. Kyverno policies check every Terraform plan before apply. A small RAG assistant answers questions about the kit and the tools it uses, with citations.
+Cost control and GPU inference are built in, not bolted on. Kyverno policies check every Terraform plan before apply. A small RAG assistant answers questions about the kit and the tools it uses, with citations. A provisioning agent turns a plain-English request into a branch of Terragrunt units that has passed the same checks, for a person to review.
 
 Everything runs locally against [Moto](https://github.com/getmoto/moto), a local AWS mock. **You need no AWS account, API key or paid service to try any of it**, and CI runs the same way.
 
@@ -19,6 +19,7 @@ Everything runs locally against [Moto](https://github.com/getmoto/moto), a local
 | Pulumi (Python) | the same secure bucket as a component, with unit tests on mocks |
 | Trivy | misconfiguration scan in CI |
 | LangChain, Chroma, Ollama | "Ask the kit" assistant, local models only |
+| Ollama, gpt-oss:20b, `diagrams` | provisioning agent: request → units → gated branch, plan diagram and ADR draft |
 
 ## Architecture
 
@@ -122,6 +123,111 @@ CI checks both directions: all 8 dev and prod plans pass every policy, and a del
 The script fails if either summary changes, and CI runs it on every push.
 
 Terraformer, run on the same estate, exported 14 resources instead of 4 (the default VPC, its 6 subnets and 2 default security groups came along), with names like `tfer--subnet-1bf5f134aebbf7561`. Details are in [brownfield.md](docs/brownfield.md).
+
+## Agent: from a request to a reviewed branch
+
+`agent/` turns a plain-English request into Terragrunt units built only from the kit's modules, runs the kit's own gates on them, and leaves a git branch with a PR description, a diagram drawn from the plan and a draft decision record. A person reviews it and merges. The agent never applies, and never talks to real AWS.
+
+![kit-agent architecture: request, the model's tool loop, the plan and policy gates against a local AWS mock, then the fixed steps that draw the diagram, draft the ADR and commit a branch for human review](docs/agent-architecture.png)
+
+```text
+$ uv run kit-agent "Staging GPU inference for team llm-serving, all spot, at most 3 instances, budget \$1500."
+outcome: pr
+attempts: 1, model calls: 8, 237.7 s
+branch: agent/staging-gpu-inference-for-team-llm-servi-3dc25d  (not pushed; PR body in ~/iac-starter-kit/agent/runs/staging-gpu-inference-for-team-llm-servi/pr-body.md)
+```
+
+The same request in eval run 4 produced this [PR body](agent/eval/results/examples-run4/pr-13/pr-body.md), [ADR draft](agent/eval/results/examples-run4/pr-13/0001-staging-gpu-inference-for-llm-serving.md) and [diagram](agent/eval/results/examples-run4/pr-13/0001-staging-gpu-inference-for-llm-serving.png).
+
+### How it works
+
+The pipeline is a fixed sequence in code. There is no coordinator model deciding what happens next:
+
+1. **Request → units.** gpt-oss:20b (through Ollama, local) works through 9 tools: `list_modules`, `create_env`, `write_unit`, `delete_unit`, `read_unit`, `run_plan`, `run_policies`, `finish` and `refuse`. It can't run a shell, read other files or write anything except a unit.
+2. **Gates.** `run_plan` calls `scripts/plan-json.sh` (Terragrunt plan against Moto) and `run_policies` calls `scripts/check-policies.sh` (the 5 Kyverno plan policies). If either fails, the model gets the errors back and fixes its units, with at most 3 plan runs.
+3. **Diagram.** Code draws it from the plan JSON with the [`diagrams`](https://github.com/mingrammer/diagrams) library (MIT, needs Graphviz), never the model. Each resource block gets its own icon (×N when counted). Resources that only configure another one, such as bucket versioning or route table associations, are listed on their parent. Edges come from the references Terraform records in the plan, plus a dashed edge for each Terragrunt dependency.
+4. **ADR draft.** `docs/adr/NNNN-<slug>.md`, MADR style, status **Proposed**. Code writes the facts: modules, add/change/destroy counts per unit, policy results and the diagram link. The model writes only the context, the options and the rationale, through one JSON-schema-constrained call.
+5. **Branch and PR body.** Each request runs in its own git worktree, so your checkout is never touched. Only files under `live/` and `docs/adr/` can be committed. Nothing is pushed: opening the PR is your step.
+
+The rules the model must follow are also enforced in code:
+
+| Rule | Where it's enforced |
+|---|---|
+| Write only under `live/`, never `root.hcl` or `_envcommon/`, no symlink escapes | `safe_path` raises before any write |
+| Only the kit's modules | an unknown module stops the run as a refusal |
+| Only the module's real variables | unknown or missing variables go back to the model |
+| `prod` needs the label `prod-approved` | a prod write without it stops the run |
+| The budget is the amount the request states | `finish` is rejected otherwise; no stated amount stops the run |
+| No invented ARNs or IDs | values like `arn:…`, `subnet-…` must appear in the request |
+| A stated on-demand share is kept as asked | a GPU unit that changes it is rejected, so the policy gate or a refusal decides |
+| `finish` only after both gates pass with nothing written since | checked in `finish` |
+| Plans only against a local mock | the gate asserts `KIT_TARGET` is `moto` or `emulator` and the endpoint is local |
+
+CI gets two new jobs. `agent` runs the 86 unit tests, which use a scripted fake model and need no Ollama. `adr-status` runs `scripts/check-adr-status.sh` and fails while any ADR the PR adds or changes is still Proposed, so the reviewer has to read it, name themselves and set it to Accepted before merging.
+
+### Results
+
+25 requests in [`agent/eval/requests.jsonl`](agent/eval/requests.jsonl): 14 valid ones and 11 that must be refused (public buckets ×2, no budget ×2, unknown modules ×3, prod with no approval label ×2, an explicit policy break ×2). Every branch is checked again from scratch: a fresh worktree, plan, policies, diagram coverage against that plan, and the ADR's facts against that plan. Model gpt-oss:20b, `think` low, temperature 0, `num_ctx` 4096, on an M4 laptop, with another job using the same Ollama server throughout. Every number comes from [`agent/eval/results/`](agent/eval/results).
+
+Run 4, the final code (`run4.json`):
+
+| Measure | Result |
+|---|---|
+| Valid requests that ended in a branch passing every gate | **12 of 14** (86%) |
+| Bad requests refused | **10 of 11**, all by the model; the 11th failed without a branch |
+| Bad requests that became a branch | 0 |
+| Policy violations in a branch | **0** |
+| Branches failing the fresh re-check | 0 |
+| Plan attempts per branch | mean 1.0, max 2 across all requests; all 12 branches passed on the first attempt |
+| Time per request | median 202 s, p90 283 s; branches median 238 s, refusals median 41 s |
+| Model calls per request | mean 5.6; largest prompt 2,420 tokens |
+| Diagram coverage | 182 of 182 planned resources shown (100%) |
+| ADR facts that differ from the plan | 0 of 12 ADRs |
+| ADRs left Proposed / with sections drafted by the model | 12 / 12 |
+| Requests with an invalid tool call fed back to the model | 2 (both recovered) |
+
+The 3 misses:
+
+- **pr-05** (a GPU group that "should scale to zero outside office hours"): both gates passed, then the model wrote the PR title and reasons as prose 3 times instead of calling `finish`. The run stopped with no branch.
+- **pr-10** (GPU inference for team vision): the model asked for a module called `llm-inference`, which is the name of an existing unit in `live/`, not a module. The guard stopped it as a refusal.
+- **ref-11** (a prod budget with no approval label): the model gave the right reason but wrote `{"action": "refuse", ...}` as text 3 times instead of calling `refuse`. It failed safe, with no branch, but it isn't counted as a correct refusal.
+
+All 4 runs side by side (the same 25 requests):
+
+| Run | Valid → passing branch | Bad requests refused | Bad request → branch | Violations in branches | Median time |
+|---|---|---|---|---|---|
+| 1 | 12 / 14 | 11 / 11 | 0 | 0 | 94 s |
+| 2 | 10 / 14 | 10 / 11 | 1 | 0 | 85 s |
+| 3 | 11 / 14 | 9 / 11 | 0 | 0 | 184 s |
+| 4 | 12 / 14 | 10 / 11 | 0 | 0 | 202 s |
+
+Runs 3 and 4 were slower because another model job shared the Ollama server. Run 4 took 91 minutes in total.
+
+### What failed, and what changed
+
+The eval was run four times. The fixes between runs came from reading the failures, so the last run is not a blind test: treat it as a regression baseline.
+
+- **Run 1: valid work refused after the gates passed** (pr-06, pr-07). The model replied in text, and the fallback nudge said "call a tool, or call refuse", so it refused. The nudge now depends on the state: once both gates pass with nothing written since, it says to call `finish`.
+- **Run 2: valid requests refused for missing details** (pr-03 and pr-13 had no CIDR or zones; pr-09 was misread as prod). The prompt now gives network defaults and says a value the kit can default is never a reason to refuse.
+- **Run 2: a stated requirement silently changed.** ref-07 asks for 100% on-demand GPUs, which breaks the 50% policy. The model quietly set 50% and opened a branch: the gates passed, but it wasn't what was asked. A guard now rejects a GPU unit whose on-demand share differs from the one the request states, so the policy gate or a refusal decides.
+- **Run 3: Ollama HTTP 500s** (4 requests). The response body showed the cause: gpt-oss wrote invalid JSON inside a tool call (a stray quote), and Ollama failed to parse it. At temperature 0 a plain retry repeats it exactly. Now the error goes back to the model as a message, and the third one in a run stops it. In run 4, pr-14 and ref-07 both hit this once and recovered. Other 5xx errors get one retry after 5 s.
+- **Not fixed:** the model sometimes writes a tool call as prose or in its own JSON shape (pr-05, ref-11 in run 4). Accepting more shapes would be tuning to this eval, so these stay safe failures with no branch.
+
+During the build, before the eval:
+
+- **The model invented a KMS key ARN** for a bucket and **turned on cost anomaly detection** in staging, which would have made a second anomaly monitor in an account that allows one. Both are now rejected in code, and the prompt says to leave variables unset unless the request asks.
+- **Tool calls written as text.** gpt-oss sometimes replies with the tool call as a JSON object in its message instead of calling the tool. A reply that is exactly one JSON object naming a known tool is accepted and counted; anything else gets a nudge.
+- **The ADR said the bucket had no encryption.** The kit's modules always encrypt. The ADR prompt now lists what each module does by default.
+
+The model's ADR prose still needs a careful read. In the example above, one "option" raises the budget to $2,000, which the request rules out, and the model merged its consequences into one bullet. In run 3 the same request produced prose about a "Spot Fleet", but the module uses an Auto Scaling group. That's why ADRs start as Proposed and CI blocks the merge until someone accepts them.
+
+### Diagram icons
+
+Only AWS is exercised end to end. The kit has no GCP or Azure modules, so the `google_` → GCP and `azurerm_` → Azure icon mappings are unit-tested only.
+
+- **AWS:** "We allow customers and partners to use these toolkits and assets to create architecture diagrams" ([AWS Architecture Icons](https://aws.amazon.com/architecture/icons/)).
+- **Azure:** Microsoft "permits the use of these icons in architectural diagrams, training materials, or documentation" ([Azure architecture icons](https://learn.microsoft.com/en-us/azure/architecture/icons/)).
+- **Google Cloud:** the [icons page](https://cloud.google.com/icons) offers them "for your diagrams, technical documentation, and more" but states no licence. Check it before publishing GCP diagrams.
 
 ## Ask the kit
 
@@ -251,6 +357,11 @@ Left out on purpose:
 - **AWS only.** Azure and GCP modules would follow the same layout.
 - **Moto is not AWS.** Plans and the brownfield demo run against a mock. Apply in a sandbox account before trusting a module in production.
 - The assistant's eval set is small and hand-written by the author of the kit; see the caveats in [Ask the kit](#ask-the-kit).
+- **The agent's eval is small too:** 25 hand-written requests, and the fixes between runs came from reading failures on the same set. Run 4 is a regression baseline, not a blind score.
+- **ADR numbers can collide.** The agent numbers each ADR from the branch it starts on, so two agent branches open at once can both take `0001`. Renumber on merge.
+- **CI has no apply step.** If one is added, it must run after merge and only against Moto or the AWS Emulator.
+- **Diagram edges between units are approximate.** The dashed edge from a network unit to a GPU unit starts at the network unit's first resource, not at the subnets the GPU group uses.
+- **Timing depends on the machine.** The eval shared one Ollama server with another job; on a free machine the agent is faster.
 
 ## How to run
 
@@ -295,6 +406,18 @@ uv run kit-assistant serve            # FastAPI on http://127.0.0.1:8010
 uv run pytest -q                      # unit tests, no models needed
 ```
 
+The provisioning agent uses the same Ollama model, Moto (started above) and [Graphviz](https://graphviz.org) for the diagrams (`brew install graphviz` or `apt-get install graphviz`):
+
+```bash
+source scripts/moto-env.sh
+cd agent && uv sync
+uv run kit-agent "Dev bucket for team docs with versioning turned off, and a \$40 budget."
+uv run pytest -q                      # 86 unit tests with a scripted model, no Ollama needed
+uv run python eval/run_eval.py --tag mine   # the 25-request eval, about 1.5 hours on a laptop
+```
+
+The agent leaves a local branch named `agent/<slug>` and writes the PR body under `agent/runs/`. It never pushes; open the PR yourself.
+
 ## Layout
 
 ```text
@@ -303,9 +426,10 @@ live/           Terragrunt: root.hcl, _envcommon/, dev/, prod/
 policies/       terraform/ (plan JSON) and kubernetes/ Kyverno policies, with tests
 brownfield/     seed_clickops.py, discover/, adopt/, terraformer/
 pulumi/         SecureBucket component and mock-based tests
-scripts/        moto-env, emulator-env, plan-json, check-policies, test-policies, brownfield-demo
+scripts/        moto-env, emulator-env, plan-json, check-policies, test-policies, brownfield-demo, check-adr-status
 docs/           greenfield, brownfield, finops, ai-infrastructure, aws-emulator
 assistant/      the "Ask the kit" RAG assistant and its eval
+agent/          the provisioning agent, its tests and its eval
 ```
 
 ## Licence

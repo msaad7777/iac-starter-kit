@@ -1,0 +1,378 @@
+{
+  "summary": {
+    "requests": 4,
+    "should_pr": 3,
+    "should_refuse": 1,
+    "pr_branches_passing_every_gate": 1,
+    "pr_branch_share_of_valid_requests": 0.333,
+    "composition_correct": 1,
+    "valid_requests_refused": 1,
+    "valid_requests_failed": 1,
+    "refusals_correct": 0,
+    "refusals_by_guard": 0,
+    "bad_requests_that_became_prs": 0,
+    "bad_requests_failed_without_pr": 1,
+    "policy_violations_in_branches": 0,
+    "branches_failing_recheck": 0,
+    "attempts_mean_all": 0.5,
+    "attempts_mean_pr": 1,
+    "attempts_max": 1,
+    "first_attempt_pass_pr": 1,
+    "seconds_median": 255.6,
+    "seconds_p90": 274.4,
+    "seconds_median_pr": 274.4,
+    "seconds_median_refused": 255.6,
+    "llm_calls_mean": 4.5,
+    "max_prompt_tokens": 2036,
+    "requests_with_text_tool_calls": 0,
+    "diagram_resources_planned": 8,
+    "diagram_resources_shown": 8,
+    "diagram_misses": [],
+    "adr_fact_mismatches": 0,
+    "adrs_proposed": 1,
+    "adr_sections_from_model": 1,
+    "model": "gpt-oss:20b",
+    "num_ctx": 4096,
+    "think": "low",
+    "max_attempts": 3,
+    "wall_clock_s": 854,
+    "target": "moto"
+  },
+  "rows": [
+    {
+      "id": "pr-02",
+      "expect": "pr",
+      "why": "",
+      "request": "Dev: a private bucket for the search team's embeddings, with a $150 monthly budget.",
+      "labels": [],
+      "outcome": "pr",
+      "refused_by": "",
+      "reason": "",
+      "attempts": 1,
+      "llm_calls": 7,
+      "seconds": 274.4,
+      "max_prompt_tokens": 2028,
+      "text_tool_calls": 0,
+      "adr_from_model": true,
+      "diagram_stats": {
+        "drawn": 2,
+        "folded": 6,
+        "missed": 0,
+        "coverage": 1.0,
+        "missed_addresses": []
+      },
+      "adr_file": "docs/adr/0001-add-private-bucket-and-budget-for-search.md",
+      "branch": null,
+      "verify": {
+        "plan_ok": true,
+        "policy_ok": true,
+        "plans_checked": 6,
+        "violations": 0,
+        "failing": {},
+        "diagram": {
+          "planned": 8,
+          "shown": 8,
+          "missed": [],
+          "png_committed": true
+        },
+        "adr": {
+          "status": "Proposed",
+          "mismatches": []
+        }
+      },
+      "composition": {
+        "ok": true,
+        "env": true,
+        "modules": true,
+        "budget": true,
+        "got_modules": [
+          "budget",
+          "s3-bucket"
+        ],
+        "got_envs": [
+          "dev"
+        ]
+      },
+      "units": [
+        {
+          "kind": "unit",
+          "env": "dev",
+          "unit": "search-embeddings",
+          "module": "s3-bucket",
+          "inputs": {
+            "name": "acme-dev-search-embeddings",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "search-team",
+              "service": "search"
+            }
+          },
+          "network_unit": null
+        },
+        {
+          "kind": "unit",
+          "env": "dev",
+          "unit": "search-budget",
+          "module": "budget",
+          "inputs": {
+            "alert_emails": [
+              "finops@example.com"
+            ],
+            "monthly_limit_usd": 150,
+            "name": "acme-dev-search",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "search-team",
+              "service": "search"
+            }
+          },
+          "network_unit": null
+        }
+      ],
+      "history": [
+        {
+          "attempt": 1,
+          "gate": "plan",
+          "ok": true,
+          "detail": "",
+          "seconds": 95.5
+        },
+        {
+          "attempt": 1,
+          "gate": "policies",
+          "ok": true,
+          "detail": "{}",
+          "seconds": 1.8
+        }
+      ],
+      "reasons": [
+        "private bucket with default tags \u2014 search-embeddings",
+        "budget set to $150 \u2014 search-budget"
+      ],
+      "tools": [
+        "list_modules",
+        "write_unit",
+        "write_unit",
+        "write_unit",
+        "run_plan",
+        "run_policies",
+        "finish"
+      ],
+      "said": []
+    },
+    {
+      "id": "pr-10",
+      "expect": "pr",
+      "why": "",
+      "request": "Dev GPU inference for team vision: at most 2 instances, 25 percent on-demand above base, office hours 9 to 18 Toronto time, $700 budget.",
+      "labels": [],
+      "outcome": "refused",
+      "refused_by": "model",
+      "reason": "Missing network unit reference; unit name mismatch",
+      "attempts": 1,
+      "llm_calls": 7,
+      "seconds": 255.6,
+      "max_prompt_tokens": 2036,
+      "text_tool_calls": 0,
+      "adr_from_model": false,
+      "diagram_stats": {},
+      "adr_file": "",
+      "branch": null,
+      "verify": {},
+      "composition": {},
+      "units": [
+        {
+          "kind": "unit",
+          "env": "dev",
+          "unit": "vision-network",
+          "module": "network",
+          "inputs": {
+            "azs": [
+              "us-east-1a",
+              "us-east-1b"
+            ],
+            "cidr": "10.1.0.0/16",
+            "name": "vision",
+            "nat_strategy": "single",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "vision-team",
+              "service": "vision"
+            }
+          },
+          "network_unit": null
+        },
+        {
+          "kind": "unit",
+          "env": "dev",
+          "unit": "vision-gpu",
+          "module": "gpu-inference",
+          "inputs": {
+            "ami_id": "ami-0123456789abcdef0",
+            "desired_capacity": 1,
+            "instance_types": [
+              "g4dn.xlarge"
+            ],
+            "max_size": 2,
+            "min_size": 1,
+            "name": "vision-gpu",
+            "office_hours_schedule": {
+              "scale_down_cron": "0 18 * * *",
+              "scale_up_cron": "0 9 * * *",
+              "time_zone": "America/Toronto"
+            },
+            "on_demand_base_capacity": 1,
+            "on_demand_percentage_above_base": 25,
+            "root_volume_gb": 100,
+            "tags": {
+              "data-classification": "internal",
+              "owner": "vision-team",
+              "service": "vision"
+            }
+          },
+          "network_unit": "vision"
+        },
+        {
+          "kind": "unit",
+          "env": "dev",
+          "unit": "vision-budget",
+          "module": "budget",
+          "inputs": {
+            "actual_threshold_percent": 80,
+            "alert_emails": [
+              "finops@example.com"
+            ],
+            "cost_center": "CC-1234",
+            "monthly_limit_usd": 700,
+            "name": "vision",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "vision-team",
+              "service": "vision"
+            }
+          },
+          "network_unit": null
+        }
+      ],
+      "history": [
+        {
+          "attempt": 1,
+          "gate": "plan",
+          "ok": false,
+          "detail": "plan failed in dev:\n0 INFO   terraform: Initializing the backend...\n00:52:21.029 INFO   terraform: Successfully configured the backend \"local\"! Terraform will automatically\n00:52:21.029 INFO   terraform: use this backend unless the backend configuration changes.\n00:52:21.032 INFO   terraform: Initializing provider plugins...\n00:52:21.032 INFO   terraform: - Finding hashicorp/aws versions matching \">= 5.70.0, < 7.0.0\"...\n00:52:21.396 INFO   terraform: - Installing hashicorp/aws v6.73.0...\n00:52:28.131 INFO   terraform: - Installed hashicorp/aws v6.73.0 (signed by HashiCorp)\n00:52:28.131 INFO   ",
+          "seconds": 77.1
+        }
+      ],
+      "reasons": [],
+      "tools": [
+        "list_modules",
+        "create_env",
+        "write_unit",
+        "write_unit",
+        "write_unit",
+        "run_plan",
+        "refuse"
+      ],
+      "said": []
+    },
+    {
+      "id": "pr-14",
+      "expect": "pr",
+      "why": "",
+      "request": "Dev bucket for team docs with versioning turned off, and a $40 budget.",
+      "labels": [],
+      "outcome": "failed",
+      "refused_by": "",
+      "reason": "LLM error: HTTP Error 500: Internal Server Error",
+      "attempts": 0,
+      "llm_calls": 2,
+      "seconds": 94.3,
+      "max_prompt_tokens": 1512,
+      "text_tool_calls": 0,
+      "adr_from_model": false,
+      "diagram_stats": {},
+      "adr_file": "",
+      "branch": null,
+      "verify": {},
+      "composition": {},
+      "units": [
+        {
+          "kind": "unit",
+          "env": "dev",
+          "unit": "docs-bucket",
+          "module": "s3-bucket",
+          "inputs": {
+            "name": "acme-dev-docs-bucket",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "docs-team",
+              "service": "docs"
+            },
+            "versioning": false
+          },
+          "network_unit": null
+        }
+      ],
+      "history": [],
+      "reasons": [],
+      "tools": [
+        "list_modules",
+        "write_unit"
+      ],
+      "said": []
+    },
+    {
+      "id": "ref-07",
+      "expect": "refuse",
+      "why": "explicitly breaks the GPU spend policy",
+      "request": "Prod GPU inference for team ml with 100 percent on-demand instances, $5000 budget.",
+      "labels": [
+        "prod-approved"
+      ],
+      "outcome": "failed",
+      "refused_by": "",
+      "reason": "LLM error: HTTP Error 500: Internal Server Error",
+      "attempts": 0,
+      "llm_calls": 2,
+      "seconds": 105.8,
+      "max_prompt_tokens": 1515,
+      "text_tool_calls": 0,
+      "adr_from_model": false,
+      "diagram_stats": {},
+      "adr_file": "",
+      "branch": null,
+      "verify": {},
+      "composition": {},
+      "units": [
+        {
+          "kind": "unit",
+          "env": "prod",
+          "unit": "ml-network",
+          "module": "network",
+          "inputs": {
+            "azs": [
+              "us-east-1a",
+              "us-east-1b"
+            ],
+            "cidr": "10.1.0.0/16",
+            "name": "ml",
+            "nat_strategy": "single",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "ml-team",
+              "service": "ml"
+            }
+          },
+          "network_unit": null
+        }
+      ],
+      "history": [],
+      "reasons": [],
+      "tools": [
+        "list_modules",
+        "write_unit"
+      ],
+      "said": []
+    }
+  ]
+}

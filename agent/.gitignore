@@ -1,0 +1,6 @@
+runs/
+eval/results/*.log
+eval/results/examples-run1/
+eval/results/examples-run2/
+eval/results/examples-run3/
+eval/results/examples-run3-retry/
