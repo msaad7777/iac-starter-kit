@@ -1,6 +1,6 @@
 """Create a small "click-ops" estate in Moto: what a team without IaC typically has.
 
-Run against Moto only (source scripts/moto-env.sh first). It refuses to run if
+Run against Moto or AWS Emulator only (source scripts/moto-env.sh or emulator-env.sh first). It refuses to run if
 AWS_ENDPOINT_URL is not a local address, so it can never touch a real account.
 """
 import os
@@ -11,7 +11,7 @@ import boto3
 
 endpoint = os.environ.get("AWS_ENDPOINT_URL", "")
 if urlparse(endpoint).hostname not in {"127.0.0.1", "localhost"}:
-    sys.exit("Refusing to run: AWS_ENDPOINT_URL must point at a local Moto server.")
+    sys.exit("Refusing to run: AWS_ENDPOINT_URL must point at a local Moto server or AWS Emulator.")
 
 s3 = boto3.client("s3")
 ec2 = boto3.client("ec2")
