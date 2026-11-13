@@ -281,6 +281,8 @@ kyverno test policies/kubernetes/tests
 
 On Linux, add `127.0.0.1 123456789012.localhost` to `/etc/hosts` if S3 Control calls fail to resolve (CI does this).
 
+[AWS Emulator](https://github.com/aws/aws-emulator) works as an optional second local target: `source scripts/emulator-env.sh` instead of `moto-env.sh`. It passes the same plan, policy and brownfield steps, and gives a cleaner apply round trip than Moto, but two calls the kit needs aren't implemented yet. Setup, measured results and caveats are in [docs/aws-emulator.md](docs/aws-emulator.md). CI still uses Moto.
+
 The assistant needs [Ollama](https://ollama.com) and about 14 GB of disk for the model:
 
 ```bash
@@ -301,8 +303,8 @@ live/           Terragrunt: root.hcl, _envcommon/, dev/, prod/
 policies/       terraform/ (plan JSON) and kubernetes/ Kyverno policies, with tests
 brownfield/     seed_clickops.py, discover/, adopt/, terraformer/
 pulumi/         SecureBucket component and mock-based tests
-scripts/        moto-env, plan-json, check-policies, test-policies, brownfield-demo
-docs/           greenfield, brownfield, finops, ai-infrastructure
+scripts/        moto-env, emulator-env, plan-json, check-policies, test-policies, brownfield-demo
+docs/           greenfield, brownfield, finops, ai-infrastructure, aws-emulator
 assistant/      the "Ask the kit" RAG assistant and its eval
 ```
 

@@ -6,7 +6,8 @@
 #   3. merges env.hcl and region.hcl into inputs
 #
 # Environment switches:
-#   KIT_TARGET=moto  point the provider at a local Moto server (no AWS account needed)
+#   KIT_TARGET=moto      point the provider at a local Moto server (no AWS account needed)
+#   KIT_TARGET=emulator  point it at a local AWS Emulator instead (scripts/emulator-env.sh)
 #   KIT_BACKEND=s3   use the S3 backend with native lockfile locking (Terraform >= 1.10)
 
 locals {
@@ -21,7 +22,8 @@ locals {
   target  = get_env("KIT_TARGET", "aws")
   backend = get_env("KIT_BACKEND", "local")
 
-  moto_url = get_env("MOTO_URL", "http://localhost:5000")
+  moto_url     = get_env("MOTO_URL", "http://localhost:5000")
+  emulator_url = get_env("EMULATOR_URL", "https://127.0.0.1:9297")
 
   # Same keys as modules/tags. The provider applies them to every resource it creates.
   default_tags = {
@@ -49,6 +51,32 @@ locals {
       sts         = "${local.moto_url}"
     }
   EOT
+
+  # AWS Emulator: HTTPS with a self-signed CA and run-only keys. Both come from the
+  # environment (AWS_CA_BUNDLE, AWS_SHARED_CREDENTIALS_FILE) set by scripts/emulator-env.sh.
+  # insecure: S3 Control (bucket tags in provider v6) prefixes the host with the account ID,
+  # 000000000000.localhost, and the emulator's certificate only names localhost. Every
+  # endpoint below is on this machine, so skipping verification never reaches real AWS.
+  emulator_provider_settings = <<-EOT
+    skip_metadata_api_check = true
+    s3_use_path_style       = true
+    insecure                = true
+    endpoints {
+      autoscaling = "${local.emulator_url}"
+      budgets     = "${local.emulator_url}"
+      ce          = "${local.emulator_url}"
+      ec2         = "${local.emulator_url}"
+      iam         = "${local.emulator_url}"
+      s3          = "${local.emulator_url}"
+      s3control   = "${replace(local.emulator_url, "127.0.0.1", "localhost")}"
+      sts         = "${local.emulator_url}"
+    }
+  EOT
+
+  local_provider_settings = lookup({
+    moto     = local.moto_provider_settings
+    emulator = local.emulator_provider_settings
+  }, local.target, "")
 }
 
 generate "provider" {
@@ -57,7 +85,7 @@ generate "provider" {
   contents  = <<-EOF
     provider "aws" {
       region = "${local.aws_region}"
-      ${local.target == "moto" ? local.moto_provider_settings : ""}
+      ${local.local_provider_settings}
       default_tags {
         tags = ${jsonencode(local.default_tags)}
       }
