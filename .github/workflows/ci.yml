@@ -107,6 +107,31 @@ jobs:
       - run: uv sync --frozen
       - run: uv run pytest -q
 
+  adr-status:
+    name: ADRs in this PR are no longer Proposed
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: scripts/check-adr-status.sh "origin/$BASE_REF"
+        env:
+          BASE_REF: ${{ github.base_ref }}
+
+  agent:
+    name: Provisioning agent unit tests (no models needed)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: agent
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq graphviz
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --frozen
+      - run: uv run pytest -q
+
   assistant:
     name: Assistant unit tests (no models needed)
     runs-on: ubuntu-latest

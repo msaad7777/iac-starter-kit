@@ -1,0 +1,2064 @@
+{
+  "summary": {
+    "requests": 25,
+    "should_pr": 14,
+    "should_refuse": 11,
+    "pr_branches_passing_every_gate": 11,
+    "pr_branch_share_of_valid_requests": 0.786,
+    "composition_correct": 11,
+    "valid_requests_refused": 0,
+    "valid_requests_failed": 3,
+    "refusals_correct": 9,
+    "refusals_by_guard": 0,
+    "bad_requests_that_became_prs": 0,
+    "bad_requests_failed_without_pr": 2,
+    "policy_violations_in_branches": 0,
+    "branches_failing_recheck": 0,
+    "attempts_mean_all": 0.52,
+    "attempts_mean_pr": 1.09,
+    "attempts_max": 2,
+    "first_attempt_pass_pr": 10,
+    "seconds_median": 183.9,
+    "seconds_p90": 354.3,
+    "seconds_median_pr": 295.3,
+    "seconds_median_refused": 45.6,
+    "llm_calls_mean": 4.9,
+    "max_prompt_tokens": 2331,
+    "requests_with_text_tool_calls": 0,
+    "diagram_resources_planned": 191,
+    "diagram_resources_shown": 191,
+    "diagram_misses": [],
+    "adr_fact_mismatches": 0,
+    "adrs_proposed": 11,
+    "adr_sections_from_model": 11,
+    "model": "gpt-oss:20b",
+    "num_ctx": 4096,
+    "think": "low",
+    "max_attempts": 3,
+    "wall_clock_s": 5873,
+    "target": "moto"
+  },
+  "rows": [
+    {
+      "id": "pr-01",
+      "expect": "pr",
+      "why": "",
+      "request": "a staging environment for team payments with a private bucket and a $200 budget",
+      "labels": [],
+      "outcome": "pr",
+      "refused_by": "",
+      "reason": "",
+      "attempts": 1,
+      "llm_calls": 8,
+      "seconds": 258.7,
+      "max_prompt_tokens": 2246,
+      "text_tool_calls": 0,
+      "adr_from_model": true,
+      "diagram_stats": {
+        "drawn": 2,
+        "folded": 6,
+        "missed": 0,
+        "coverage": 1.0,
+        "missed_addresses": []
+      },
+      "adr_file": "docs/adr/0001-add-staging-environment-for-payments-tea.md",
+      "branch": null,
+      "verify": {
+        "plan_ok": true,
+        "policy_ok": true,
+        "plans_checked": 2,
+        "violations": 0,
+        "failing": {},
+        "diagram": {
+          "planned": 8,
+          "shown": 8,
+          "missed": [],
+          "png_committed": true
+        },
+        "adr": {
+          "status": "Proposed",
+          "mismatches": []
+        }
+      },
+      "composition": {
+        "ok": true,
+        "env": true,
+        "modules": true,
+        "budget": true,
+        "got_modules": [
+          "budget",
+          "s3-bucket"
+        ],
+        "got_envs": [
+          "staging"
+        ]
+      },
+      "units": [
+        {
+          "kind": "unit",
+          "env": "staging",
+          "unit": "payments-bucket",
+          "module": "s3-bucket",
+          "inputs": {
+            "name": "acme-staging-payments-bucket",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "payments-team",
+              "service": "payments"
+            }
+          },
+          "network_unit": null
+        },
+        {
+          "kind": "unit",
+          "env": "staging",
+          "unit": "payments-budget",
+          "module": "budget",
+          "inputs": {
+            "alert_emails": [
+              "finops@example.com"
+            ],
+            "monthly_limit_usd": 200,
+            "name": "acme-staging-payments",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "payments-team",
+              "service": "payments"
+            }
+          },
+          "network_unit": null
+        }
+      ],
+      "history": [
+        {
+          "attempt": 1,
+          "gate": "plan",
+          "ok": true,
+          "detail": "",
+          "seconds": 34.1
+        },
+        {
+          "attempt": 1,
+          "gate": "policies",
+          "ok": true,
+          "detail": "{}",
+          "seconds": 0.6
+        }
+      ],
+      "reasons": [
+        "Created staging env with default cost center",
+        "Added private bucket with required name and tags",
+        "Added budget unit with $200 limit and default alert email"
+      ],
+      "tools": [
+        "list_modules",
+        "create_env",
+        "write_unit",
+        "write_unit",
+        "run_plan",
+        "run_policies",
+        "(text)",
+        "finish"
+      ],
+      "said": [
+        "**Title:** Add staging environment for payments team \u2013 private bucket & $200 budget\n\n**Reasons for choices**\n\n1. **Environment creation** \u2013 `staging` did not exist, so `create_env` was called with default cost center `CC-1234` and owner `payments-team`.  \n2. **Bucket unit** \u2013 A private `s3-bucket` u"
+      ]
+    },
+    {
+      "id": "pr-02",
+      "expect": "pr",
+      "why": "",
+      "request": "Dev: a private bucket for the search team's embeddings, with a $150 monthly budget.",
+      "labels": [],
+      "outcome": "failed",
+      "refused_by": "",
+      "reason": "LLM error: HTTP Error 500: Internal Server Error",
+      "attempts": 0,
+      "llm_calls": 6,
+      "seconds": 216.6,
+      "max_prompt_tokens": 1854,
+      "text_tool_calls": 0,
+      "adr_from_model": false,
+      "diagram_stats": {},
+      "adr_file": "",
+      "branch": null,
+      "verify": {},
+      "composition": {},
+      "units": [
+        {
+          "kind": "unit",
+          "env": "dev",
+          "unit": "search-embeddings",
+          "module": "s3-bucket",
+          "inputs": {
+            "name": "acme-dev-search-embeddings",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "search-team",
+              "service": "search"
+            }
+          },
+          "network_unit": null
+        }
+      ],
+      "history": [],
+      "reasons": [],
+      "tools": [
+        "list_modules",
+        "write_unit",
+        "write_unit",
+        "write_unit",
+        "delete_unit",
+        "write_unit"
+      ],
+      "said": []
+    },
+    {
+      "id": "pr-03",
+      "expect": "pr",
+      "why": "",
+      "request": "Give the data team in dev a network across two availability zones with one NAT gateway, and a budget of $300 a month.",
+      "labels": [],
+      "outcome": "pr",
+      "refused_by": "",
+      "reason": "",
+      "attempts": 1,
+      "llm_calls": 7,
+      "seconds": 295.3,
+      "max_prompt_tokens": 2052,
+      "text_tool_calls": 0,
+      "adr_from_model": true,
+      "diagram_stats": {
+        "drawn": 14,
+        "folded": 7,
+        "missed": 0,
+        "coverage": 1.0,
+        "missed_addresses": []
+      },
+      "adr_file": "docs/adr/0001-add-data-team-dev-network-and-budget.md",
+      "branch": null,
+      "verify": {
+        "plan_ok": true,
+        "policy_ok": true,
+        "plans_checked": 6,
+        "violations": 0,
+        "failing": {},
+        "diagram": {
+          "planned": 21,
+          "shown": 21,
+          "missed": [],
+          "png_committed": true
+        },
+        "adr": {
+          "status": "Proposed",
+          "mismatches": []
+        }
+      },
+      "composition": {
+        "ok": true,
+        "env": true,
+        "modules": true,
+        "budget": true,
+        "got_modules": [
+          "budget",
+          "network"
+        ],
+        "got_envs": [
+          "dev"
+        ]
+      },
+      "units": [
+        {
+          "kind": "unit",
+          "env": "dev",
+          "unit": "data-network",
+          "module": "network",
+          "inputs": {
+            "azs": [
+              "us-east-1a",
+              "us-east-1b"
+            ],
+            "cidr": "10.1.0.0/16",
+            "name": "data",
+            "nat_strategy": "single",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "data-team",
+              "service": "data"
+            }
+          },
+          "network_unit": null
+        },
+        {
+          "kind": "unit",
+          "env": "dev",
+          "unit": "data-budget",
+          "module": "budget",
+          "inputs": {
+            "alert_emails": [
+              "finops@example.com"
+            ],
+            "monthly_limit_usd": 300,
+            "name": "data",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "data-team",
+              "service": "data"
+            }
+          },
+          "network_unit": null
+        }
+      ],
+      "history": [
+        {
+          "attempt": 1,
+          "gate": "plan",
+          "ok": true,
+          "detail": "",
+          "seconds": 108.7
+        },
+        {
+          "attempt": 1,
+          "gate": "policies",
+          "ok": true,
+          "detail": "{}",
+          "seconds": 1.4
+        }
+      ],
+      "reasons": [
+        "Created VPC with two AZs and single NAT gateway per policy \u2014 data-network",
+        "Budget set to $300/month as requested \u2014 data-budget"
+      ],
+      "tools": [
+        "list_modules",
+        "write_unit",
+        "write_unit",
+        "write_unit",
+        "run_plan",
+        "run_policies",
+        "finish"
+      ],
+      "said": []
+    },
+    {
+      "id": "pr-04",
+      "expect": "pr",
+      "why": "",
+      "request": "Staging network for team checkout with 3 availability zones; budget $400.",
+      "labels": [],
+      "outcome": "pr",
+      "refused_by": "",
+      "reason": "",
+      "attempts": 1,
+      "llm_calls": 8,
+      "seconds": 237.0,
+      "max_prompt_tokens": 2130,
+      "text_tool_calls": 0,
+      "adr_from_model": true,
+      "diagram_stats": {
+        "drawn": 17,
+        "folded": 10,
+        "missed": 0,
+        "coverage": 1.0,
+        "missed_addresses": []
+      },
+      "adr_file": "docs/adr/0001-staging-network-and-budget-for-checkout.md",
+      "branch": null,
+      "verify": {
+        "plan_ok": true,
+        "policy_ok": true,
+        "plans_checked": 2,
+        "violations": 0,
+        "failing": {},
+        "diagram": {
+          "planned": 27,
+          "shown": 27,
+          "missed": [],
+          "png_committed": true
+        },
+        "adr": {
+          "status": "Proposed",
+          "mismatches": []
+        }
+      },
+      "composition": {
+        "ok": true,
+        "env": true,
+        "modules": true,
+        "budget": true,
+        "got_modules": [
+          "budget",
+          "network"
+        ],
+        "got_envs": [
+          "staging"
+        ]
+      },
+      "units": [
+        {
+          "kind": "unit",
+          "env": "staging",
+          "unit": "checkout-network",
+          "module": "network",
+          "inputs": {
+            "azs": [
+              "us-east-1a",
+              "us-east-1b",
+              "us-east-1c"
+            ],
+            "cidr": "10.2.0.0/16",
+            "name": "checkout",
+            "nat_strategy": "single",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "checkout-team",
+              "service": "checkout"
+            }
+          },
+          "network_unit": null
+        },
+        {
+          "kind": "unit",
+          "env": "staging",
+          "unit": "checkout-budget",
+          "module": "budget",
+          "inputs": {
+            "alert_emails": [
+              "finops@example.com"
+            ],
+            "monthly_limit_usd": 400,
+            "name": "checkout",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "checkout-team",
+              "service": "checkout"
+            }
+          },
+          "network_unit": null
+        }
+      ],
+      "history": [
+        {
+          "attempt": 1,
+          "gate": "plan",
+          "ok": true,
+          "detail": "",
+          "seconds": 33.6
+        },
+        {
+          "attempt": 1,
+          "gate": "policies",
+          "ok": true,
+          "detail": "{}",
+          "seconds": 0.6
+        }
+      ],
+      "reasons": [
+        "Created VPC with 3 AZs and single NAT gateway compliant with policy \u2014 Network",
+        "Budget set to $400 as requested \u2014 Budget"
+      ],
+      "tools": [
+        "list_modules",
+        "create_env",
+        "write_unit",
+        "write_unit",
+        "write_unit",
+        "run_plan",
+        "run_policies",
+        "finish"
+      ],
+      "said": []
+    },
+    {
+      "id": "pr-05",
+      "expect": "pr",
+      "why": "",
+      "request": "A dev GPU inference group for team ml-research on spot instances, with a $500 budget. It should scale to zero outside office hours.",
+      "labels": [],
+      "outcome": "pr",
+      "refused_by": "",
+      "reason": "",
+      "attempts": 2,
+      "llm_calls": 9,
+      "seconds": 407.0,
+      "max_prompt_tokens": 2331,
+      "text_tool_calls": 0,
+      "adr_from_model": true,
+      "diagram_stats": {
+        "drawn": 18,
+        "folded": 7,
+        "missed": 0,
+        "coverage": 1.0,
+        "missed_addresses": []
+      },
+      "adr_file": "docs/adr/0001-add-dev-gpu-inference-group-and-budget-f.md",
+      "branch": null,
+      "verify": {
+        "plan_ok": true,
+        "policy_ok": true,
+        "plans_checked": 7,
+        "violations": 0,
+        "failing": {},
+        "diagram": {
+          "planned": 25,
+          "shown": 25,
+          "missed": [],
+          "png_committed": true
+        },
+        "adr": {
+          "status": "Proposed",
+          "mismatches": []
+        }
+      },
+      "composition": {
+        "ok": true,
+        "env": true,
+        "modules": true,
+        "budget": true,
+        "got_modules": [
+          "budget",
+          "gpu-inference",
+          "network"
+        ],
+        "got_envs": [
+          "dev"
+        ]
+      },
+      "units": [
+        {
+          "kind": "unit",
+          "env": "dev",
+          "unit": "ml-research-gpu-inference",
+          "module": "gpu-inference",
+          "inputs": {
+            "ami_id": "ami-0123456789abcdef0",
+            "desired_capacity": 0,
+            "instance_profile_name": "",
+            "instance_types": [
+              "g4dn.xlarge"
+            ],
+            "max_size": 5,
+            "min_size": 0,
+            "name": "ml-research",
+            "office_hours_schedule": {
+              "scale_down_cron": "0 17 * * *",
+              "scale_up_cron": "0 9 * * *",
+              "time_zone": "America/New_York"
+            },
+            "on_demand_base_capacity": 0,
+            "on_demand_percentage_above_base": 0,
+            "root_volume_gb": 0,
+            "security_group_ids": [],
+            "tags": {
+              "data-classification": "internal",
+              "owner": "ml-research-team",
+              "service": "ml-research"
+            },
+            "user_data": ""
+          },
+          "network_unit": "dev-network"
+        },
+        {
+          "kind": "unit",
+          "env": "dev",
+          "unit": "ml-research-budget",
+          "module": "budget",
+          "inputs": {
+            "alert_emails": [
+              "finops@example.com"
+            ],
+            "monthly_limit_usd": 500,
+            "name": "ml-research",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "ml-research-team",
+              "service": "ml-research"
+            }
+          },
+          "network_unit": null
+        },
+        {
+          "kind": "unit",
+          "env": "dev",
+          "unit": "dev-network",
+          "module": "network",
+          "inputs": {
+            "azs": [
+              "us-east-1a",
+              "us-east-1b"
+            ],
+            "cidr": "10.10.0.0/16",
+            "name": "dev-network",
+            "nat_strategy": "single",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "ml-research-team",
+              "service": "ml-research"
+            }
+          },
+          "network_unit": null
+        }
+      ],
+      "history": [
+        {
+          "attempt": 1,
+          "gate": "plan",
+          "ok": false,
+          "detail": "plan failed in dev:\n8\n23:28:13.284 INFO   terraform: Initializing the backend...\n23:28:13.292 INFO   terraform: Successfully configured the backend \"local\"! Terraform will automatically\n23:28:13.292 INFO   terraform: use this backend unless the backend configuration changes.\n23:28:13.294 INFO   terraform: Initializing provider plugins...\n23:28:13.294 INFO   terraform: - Finding hashicorp/aws versions matching \">= 5.70.0, < 7.0.0\"...\n23:28:13.728 INFO   terraform: - Installing hashicorp/aws v6.73.0...\n23:28:21.332 INFO   terraform: - Installed hashicorp/aws v6.73.0 (signed by HashiCorp)\n23:28:2",
+          "seconds": 70.0
+        },
+        {
+          "attempt": 2,
+          "gate": "plan",
+          "ok": true,
+          "detail": "",
+          "seconds": 76.0
+        },
+        {
+          "attempt": 2,
+          "gate": "policies",
+          "ok": true,
+          "detail": "{}",
+          "seconds": 1.8
+        }
+      ],
+      "reasons": [
+        "spot instances, scale to zero, office hours schedule \u2014 ml-research-gpu-inference",
+        "$500 monthly limit \u2014 ml-research-budget"
+      ],
+      "tools": [
+        "list_modules",
+        "write_unit",
+        "write_unit",
+        "run_plan",
+        "write_unit",
+        "write_unit",
+        "run_plan",
+        "run_policies",
+        "finish"
+      ],
+      "said": []
+    },
+    {
+      "id": "pr-06",
+      "expect": "pr",
+      "why": "",
+      "request": "Team analytics needs a dev bucket for raw logs that keeps old versions for 30 days, and a $120 budget.",
+      "labels": [],
+      "outcome": "pr",
+      "refused_by": "",
+      "reason": "",
+      "attempts": 1,
+      "llm_calls": 6,
+      "seconds": 371.4,
+      "max_prompt_tokens": 1976,
+      "text_tool_calls": 0,
+      "adr_from_model": true,
+      "diagram_stats": {
+        "drawn": 2,
+        "folded": 6,
+        "missed": 0,
+        "coverage": 1.0,
+        "missed_addresses": []
+      },
+      "adr_file": "docs/adr/0001-add-analytics-dev-bucket-and-budget.md",
+      "branch": null,
+      "verify": {
+        "plan_ok": true,
+        "policy_ok": true,
+        "plans_checked": 6,
+        "violations": 0,
+        "failing": {},
+        "diagram": {
+          "planned": 8,
+          "shown": 8,
+          "missed": [],
+          "png_committed": true
+        },
+        "adr": {
+          "status": "Proposed",
+          "mismatches": []
+        }
+      },
+      "composition": {
+        "ok": true,
+        "env": true,
+        "modules": true,
+        "budget": true,
+        "got_modules": [
+          "budget",
+          "s3-bucket"
+        ],
+        "got_envs": [
+          "dev"
+        ]
+      },
+      "units": [
+        {
+          "kind": "unit",
+          "env": "dev",
+          "unit": "analytics-raw-logs",
+          "module": "s3-bucket",
+          "inputs": {
+            "name": "acme-dev-analytics-raw-logs",
+            "noncurrent_version_expiration_days": 30,
+            "tags": {
+              "data-classification": "internal",
+              "owner": "analytics-team",
+              "service": "analytics"
+            },
+            "versioning": true
+          },
+          "network_unit": null
+        },
+        {
+          "kind": "unit",
+          "env": "dev",
+          "unit": "analytics-budget",
+          "module": "budget",
+          "inputs": {
+            "alert_emails": [
+              "finops@example.com"
+            ],
+            "cost_center": "CC-1234",
+            "monthly_limit_usd": 120,
+            "name": "acme-dev-analytics",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "analytics-team",
+              "service": "analytics"
+            }
+          },
+          "network_unit": null
+        }
+      ],
+      "history": [
+        {
+          "attempt": 1,
+          "gate": "plan",
+          "ok": true,
+          "detail": "",
+          "seconds": 99.0
+        },
+        {
+          "attempt": 1,
+          "gate": "policies",
+          "ok": true,
+          "detail": "{}",
+          "seconds": 2.2
+        }
+      ],
+      "reasons": [
+        "Bucket with versioning and 30\u2011day retention \u2014 analytics-raw-logs",
+        "120\u202fUSD monthly budget \u2014 analytics-budget"
+      ],
+      "tools": [
+        "list_modules",
+        "write_unit",
+        "write_unit",
+        "run_plan",
+        "run_policies",
+        "finish"
+      ],
+      "said": []
+    },
+    {
+      "id": "pr-07",
+      "expect": "pr",
+      "why": "",
+      "request": "Staging bucket for team mobile's release artifacts, $80/month budget.",
+      "labels": [],
+      "outcome": "pr",
+      "refused_by": "",
+      "reason": "",
+      "attempts": 1,
+      "llm_calls": 8,
+      "seconds": 313.0,
+      "max_prompt_tokens": 2118,
+      "text_tool_calls": 0,
+      "adr_from_model": true,
+      "diagram_stats": {
+        "drawn": 2,
+        "folded": 6,
+        "missed": 0,
+        "coverage": 1.0,
+        "missed_addresses": []
+      },
+      "adr_file": "docs/adr/0001-staging-bucket-and-budget-for-mobile-rel.md",
+      "branch": null,
+      "verify": {
+        "plan_ok": true,
+        "policy_ok": true,
+        "plans_checked": 2,
+        "violations": 0,
+        "failing": {},
+        "diagram": {
+          "planned": 8,
+          "shown": 8,
+          "missed": [],
+          "png_committed": true
+        },
+        "adr": {
+          "status": "Proposed",
+          "mismatches": []
+        }
+      },
+      "composition": {
+        "ok": true,
+        "env": true,
+        "modules": true,
+        "budget": true,
+        "got_modules": [
+          "budget",
+          "s3-bucket"
+        ],
+        "got_envs": [
+          "staging"
+        ]
+      },
+      "units": [
+        {
+          "kind": "unit",
+          "env": "staging",
+          "unit": "mobile-release-artifacts",
+          "module": "s3-bucket",
+          "inputs": {
+            "name": "acme-staging-mobile-release-artifacts",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "mobile-team",
+              "service": "mobile"
+            }
+          },
+          "network_unit": null
+        },
+        {
+          "kind": "unit",
+          "env": "staging",
+          "unit": "mobile",
+          "module": "budget",
+          "inputs": {
+            "alert_emails": [
+              "finops@example.com"
+            ],
+            "monthly_limit_usd": 80,
+            "name": "acme-staging-mobile",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "mobile-team",
+              "service": "mobile"
+            }
+          },
+          "network_unit": null
+        }
+      ],
+      "history": [
+        {
+          "attempt": 1,
+          "gate": "plan",
+          "ok": true,
+          "detail": "",
+          "seconds": 33.8
+        },
+        {
+          "attempt": 1,
+          "gate": "policies",
+          "ok": true,
+          "detail": "{}",
+          "seconds": 0.7
+        }
+      ],
+      "reasons": [
+        "private bucket with default settings \u2014 s3-bucket",
+        "budget set to $80/month with alert emails \u2014 budget"
+      ],
+      "tools": [
+        "list_modules",
+        "create_env",
+        "write_unit",
+        "write_unit",
+        "write_unit",
+        "run_plan",
+        "run_policies",
+        "finish"
+      ],
+      "said": []
+    },
+    {
+      "id": "pr-08",
+      "expect": "pr",
+      "why": "",
+      "request": "Prod bucket for team payments' invoices, with a $1000 budget.",
+      "labels": [
+        "prod-approved"
+      ],
+      "outcome": "pr",
+      "refused_by": "",
+      "reason": "",
+      "attempts": 1,
+      "llm_calls": 7,
+      "seconds": 354.3,
+      "max_prompt_tokens": 2027,
+      "text_tool_calls": 0,
+      "adr_from_model": true,
+      "diagram_stats": {
+        "drawn": 2,
+        "folded": 6,
+        "missed": 0,
+        "coverage": 1.0,
+        "missed_addresses": []
+      },
+      "adr_file": "docs/adr/0001-add-prod-payments-bucket-and-budget.md",
+      "branch": null,
+      "verify": {
+        "plan_ok": true,
+        "policy_ok": true,
+        "plans_checked": 6,
+        "violations": 0,
+        "failing": {},
+        "diagram": {
+          "planned": 8,
+          "shown": 8,
+          "missed": [],
+          "png_committed": true
+        },
+        "adr": {
+          "status": "Proposed",
+          "mismatches": []
+        }
+      },
+      "composition": {
+        "ok": true,
+        "env": true,
+        "modules": true,
+        "budget": true,
+        "got_modules": [
+          "budget",
+          "s3-bucket"
+        ],
+        "got_envs": [
+          "prod"
+        ]
+      },
+      "units": [
+        {
+          "kind": "unit",
+          "env": "prod",
+          "unit": "payments-bucket",
+          "module": "s3-bucket",
+          "inputs": {
+            "name": "acme-prod-payments-invoices",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "payments-team",
+              "service": "payments"
+            }
+          },
+          "network_unit": null
+        },
+        {
+          "kind": "unit",
+          "env": "prod",
+          "unit": "payments-budget",
+          "module": "budget",
+          "inputs": {
+            "alert_emails": [
+              "finops@example.com"
+            ],
+            "monthly_limit_usd": 1000,
+            "name": "acme-prod-payments",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "payments-team",
+              "service": "payments"
+            }
+          },
+          "network_unit": null
+        }
+      ],
+      "history": [
+        {
+          "attempt": 1,
+          "gate": "plan",
+          "ok": true,
+          "detail": "",
+          "seconds": 99.1
+        },
+        {
+          "attempt": 1,
+          "gate": "policies",
+          "ok": true,
+          "detail": "{}",
+          "seconds": 1.7
+        }
+      ],
+      "reasons": [
+        "private bucket with default settings \u2014 payments-bucket",
+        "$1000 monthly limit \u2014 payments-budget"
+      ],
+      "tools": [
+        "list_modules",
+        "write_unit",
+        "write_unit",
+        "write_unit",
+        "run_plan",
+        "run_policies",
+        "finish"
+      ],
+      "said": []
+    },
+    {
+      "id": "pr-09",
+      "expect": "pr",
+      "why": "",
+      "request": "Prod network for team platform with a NAT gateway in each of three AZs, budget $2500.",
+      "labels": [
+        "prod-approved"
+      ],
+      "outcome": "pr",
+      "refused_by": "",
+      "reason": "",
+      "attempts": 1,
+      "llm_calls": 8,
+      "seconds": 299.8,
+      "max_prompt_tokens": 2214,
+      "text_tool_calls": 0,
+      "adr_from_model": true,
+      "diagram_stats": {
+        "drawn": 21,
+        "folded": 10,
+        "missed": 0,
+        "coverage": 1.0,
+        "missed_addresses": []
+      },
+      "adr_file": "docs/adr/0001-add-production-network-with-per-az-nat-g.md",
+      "branch": null,
+      "verify": {
+        "plan_ok": true,
+        "policy_ok": true,
+        "plans_checked": 6,
+        "violations": 0,
+        "failing": {},
+        "diagram": {
+          "planned": 31,
+          "shown": 31,
+          "missed": [],
+          "png_committed": true
+        },
+        "adr": {
+          "status": "Proposed",
+          "mismatches": []
+        }
+      },
+      "composition": {
+        "ok": true,
+        "env": true,
+        "modules": true,
+        "budget": true,
+        "got_modules": [
+          "budget",
+          "network"
+        ],
+        "got_envs": [
+          "prod"
+        ]
+      },
+      "units": [
+        {
+          "kind": "unit",
+          "env": "prod",
+          "unit": "platform-network",
+          "module": "network",
+          "inputs": {
+            "azs": [
+              "us-east-1a",
+              "us-east-1b",
+              "us-east-1c"
+            ],
+            "cidr": "10.1.0.0/16",
+            "name": "platform",
+            "nat_strategy": "per_az",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "platform-team",
+              "service": "platform"
+            }
+          },
+          "network_unit": null
+        },
+        {
+          "kind": "unit",
+          "env": "prod",
+          "unit": "platform-budget",
+          "module": "budget",
+          "inputs": {
+            "alert_emails": [
+              "finops@example.com"
+            ],
+            "monthly_limit_usd": 2500,
+            "name": "platform",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "platform-team",
+              "service": "platform"
+            }
+          },
+          "network_unit": null
+        }
+      ],
+      "history": [
+        {
+          "attempt": 1,
+          "gate": "plan",
+          "ok": true,
+          "detail": "",
+          "seconds": 100.6
+        },
+        {
+          "attempt": 1,
+          "gate": "policies",
+          "ok": true,
+          "detail": "{}",
+          "seconds": 1.6
+        }
+      ],
+      "reasons": [
+        "network unit \u2014 Created platform-network with CIDR 10.1.0.0/16, three AZs, and per\u2011AZ NAT strategy",
+        "budget unit \u2014 Created platform-budget with $2,500 monthly limit and default alert email"
+      ],
+      "tools": [
+        "list_modules",
+        "write_unit",
+        "write_unit",
+        "run_plan",
+        "run_policies",
+        "(text)",
+        "(text)",
+        "finish"
+      ],
+      "said": [
+        "**Title:** Add production network with per\u2011AZ NAT gateways and a $2,500 budget for the platform team\n\n**Reasons for each choice**\n\n1. **Network unit** \u2013 Created `platform-network` in `prod` with CIDR `10.1.0.0/16`, three AZs (`us-east-1a`, `us-east-1b`, `us-east-1c`), and `nat_strategy: per_az` to s",
+        "**PR Title:** Add production network with per\u2011AZ NAT gateways and a $2,500 budget for the platform team\n\n**Reasons for each choice**\n\n1. **Network unit** \u2013 Created `platform-network` in `prod` with CIDR `10.1.0.0/16`, three AZs (`us-east-1a`, `us-east-1b`, `us-east-1c`), and `nat_strategy: per_az` t"
+      ]
+    },
+    {
+      "id": "pr-10",
+      "expect": "pr",
+      "why": "",
+      "request": "Dev GPU inference for team vision: at most 2 instances, 25 percent on-demand above base, office hours 9 to 18 Toronto time, $700 budget.",
+      "labels": [],
+      "outcome": "failed",
+      "refused_by": "",
+      "reason": "LLM error: HTTP Error 500: Internal Server Error",
+      "attempts": 1,
+      "llm_calls": 7,
+      "seconds": 298.5,
+      "max_prompt_tokens": 2036,
+      "text_tool_calls": 0,
+      "adr_from_model": false,
+      "diagram_stats": {},
+      "adr_file": "",
+      "branch": null,
+      "verify": {},
+      "composition": {},
+      "units": [
+        {
+          "kind": "unit",
+          "env": "dev",
+          "unit": "vision-network",
+          "module": "network",
+          "inputs": {
+            "azs": [
+              "us-east-1a",
+              "us-east-1b"
+            ],
+            "cidr": "10.1.0.0/16",
+            "name": "vision",
+            "nat_strategy": "single",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "vision-team",
+              "service": "vision"
+            }
+          },
+          "network_unit": null
+        },
+        {
+          "kind": "unit",
+          "env": "dev",
+          "unit": "vision-budget",
+          "module": "budget",
+          "inputs": {
+            "actual_threshold_percent": 80,
+            "alert_emails": [
+              "finops@example.com"
+            ],
+            "cost_center": "CC-1234",
+            "monthly_limit_usd": 700,
+            "name": "vision",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "vision-team",
+              "service": "vision"
+            }
+          },
+          "network_unit": null
+        }
+      ],
+      "history": [
+        {
+          "attempt": 1,
+          "gate": "plan",
+          "ok": false,
+          "detail": "plan failed in dev:\n5 INFO   terraform: Initializing the backend...\n00:12:04.974 INFO   terraform: Successfully configured the backend \"local\"! Terraform will automatically\n00:12:04.974 INFO   terraform: use this backend unless the backend configuration changes.\n00:12:04.977 INFO   terraform: Initializing provider plugins...\n00:12:04.977 INFO   terraform: - Finding hashicorp/aws versions matching \">= 5.70.0, < 7.0.0\"...\n00:12:05.349 INFO   terraform: - Installing hashicorp/aws v6.73.0...\n00:12:11.914 INFO   terraform: - Installed hashicorp/aws v6.73.0 (signed by HashiCorp)\n00:12:11.914 INFO   ",
+          "seconds": 80.3
+        }
+      ],
+      "reasons": [],
+      "tools": [
+        "list_modules",
+        "create_env",
+        "write_unit",
+        "write_unit",
+        "write_unit",
+        "run_plan",
+        "delete_unit"
+      ],
+      "said": []
+    },
+    {
+      "id": "pr-11",
+      "expect": "pr",
+      "why": "",
+      "request": "Staging: team growth wants a bucket that moves objects to intelligent tiering after 60 days, and a $90 budget with alerts to growth-finops@example.com.",
+      "labels": [],
+      "outcome": "pr",
+      "refused_by": "",
+      "reason": "",
+      "attempts": 1,
+      "llm_calls": 7,
+      "seconds": 183.9,
+      "max_prompt_tokens": 2056,
+      "text_tool_calls": 0,
+      "adr_from_model": true,
+      "diagram_stats": {
+        "drawn": 2,
+        "folded": 6,
+        "missed": 0,
+        "coverage": 1.0,
+        "missed_addresses": []
+      },
+      "adr_file": "docs/adr/0001-staging-growth-bucket-and-budget.md",
+      "branch": null,
+      "verify": {
+        "plan_ok": true,
+        "policy_ok": true,
+        "plans_checked": 2,
+        "violations": 0,
+        "failing": {},
+        "diagram": {
+          "planned": 8,
+          "shown": 8,
+          "missed": [],
+          "png_committed": true
+        },
+        "adr": {
+          "status": "Proposed",
+          "mismatches": []
+        }
+      },
+      "composition": {
+        "ok": true,
+        "env": true,
+        "modules": true,
+        "budget": true,
+        "got_modules": [
+          "budget",
+          "s3-bucket"
+        ],
+        "got_envs": [
+          "staging"
+        ]
+      },
+      "units": [
+        {
+          "kind": "unit",
+          "env": "staging",
+          "unit": "growth-bucket",
+          "module": "s3-bucket",
+          "inputs": {
+            "intelligent_tiering_after_days": 60,
+            "name": "acme-staging-growth-bucket",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "growth-team",
+              "service": "growth"
+            }
+          },
+          "network_unit": null
+        },
+        {
+          "kind": "unit",
+          "env": "staging",
+          "unit": "growth-budget",
+          "module": "budget",
+          "inputs": {
+            "actual_threshold_percent": 80,
+            "alert_emails": [
+              "growth-finops@example.com"
+            ],
+            "forecast_threshold_percent": 80,
+            "monthly_limit_usd": 90,
+            "name": "acme-staging-growth",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "growth-team",
+              "service": "growth"
+            }
+          },
+          "network_unit": null
+        }
+      ],
+      "history": [
+        {
+          "attempt": 1,
+          "gate": "plan",
+          "ok": true,
+          "detail": "",
+          "seconds": 32.3
+        },
+        {
+          "attempt": 1,
+          "gate": "policies",
+          "ok": true,
+          "detail": "{}",
+          "seconds": 0.6
+        }
+      ],
+      "reasons": [
+        "intelligent_tiering_after_days set to 60 \u2014 s3-bucket",
+        "90 USD monthly limit with alerts \u2014 budget"
+      ],
+      "tools": [
+        "list_modules",
+        "create_env",
+        "write_unit",
+        "write_unit",
+        "run_plan",
+        "run_policies",
+        "finish"
+      ],
+      "said": []
+    },
+    {
+      "id": "pr-12",
+      "expect": "pr",
+      "why": "",
+      "request": "A dev environment for team support: a network with no NAT gateway, a private bucket, and a $60 budget.",
+      "labels": [],
+      "outcome": "pr",
+      "refused_by": "",
+      "reason": "",
+      "attempts": 1,
+      "llm_calls": 7,
+      "seconds": 265.8,
+      "max_prompt_tokens": 2131,
+      "text_tool_calls": 0,
+      "adr_from_model": true,
+      "diagram_stats": {
+        "drawn": 13,
+        "folded": 11,
+        "missed": 0,
+        "coverage": 1.0,
+        "missed_addresses": []
+      },
+      "adr_file": "docs/adr/0001-add-support-dev-environment.md",
+      "branch": null,
+      "verify": {
+        "plan_ok": true,
+        "policy_ok": true,
+        "plans_checked": 7,
+        "violations": 0,
+        "failing": {},
+        "diagram": {
+          "planned": 24,
+          "shown": 24,
+          "missed": [],
+          "png_committed": true
+        },
+        "adr": {
+          "status": "Proposed",
+          "mismatches": []
+        }
+      },
+      "composition": {
+        "ok": true,
+        "env": true,
+        "modules": true,
+        "budget": true,
+        "got_modules": [
+          "budget",
+          "network",
+          "s3-bucket"
+        ],
+        "got_envs": [
+          "dev"
+        ]
+      },
+      "units": [
+        {
+          "kind": "unit",
+          "env": "dev",
+          "unit": "support-network",
+          "module": "network",
+          "inputs": {
+            "azs": [
+              "us-east-1a",
+              "us-east-1b"
+            ],
+            "cidr": "10.1.0.0/16",
+            "name": "support",
+            "nat_strategy": "none",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "support-team",
+              "service": "support"
+            }
+          },
+          "network_unit": null
+        },
+        {
+          "kind": "unit",
+          "env": "dev",
+          "unit": "support-bucket",
+          "module": "s3-bucket",
+          "inputs": {
+            "name": "support-bucket",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "support-team",
+              "service": "support"
+            }
+          },
+          "network_unit": null
+        },
+        {
+          "kind": "unit",
+          "env": "dev",
+          "unit": "support-budget",
+          "module": "budget",
+          "inputs": {
+            "alert_emails": [
+              "finops@example.com"
+            ],
+            "monthly_limit_usd": 60,
+            "name": "support",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "support-team",
+              "service": "support"
+            }
+          },
+          "network_unit": null
+        }
+      ],
+      "history": [
+        {
+          "attempt": 1,
+          "gate": "plan",
+          "ok": true,
+          "detail": "",
+          "seconds": 112.6
+        },
+        {
+          "attempt": 1,
+          "gate": "policies",
+          "ok": true,
+          "detail": "{}",
+          "seconds": 1.6
+        }
+      ],
+      "reasons": [
+        "private VPC with no NAT gateway \u2014 support-network",
+        "private bucket \u2014 support-bucket",
+        "$60 monthly budget \u2014 support-budget"
+      ],
+      "tools": [
+        "list_modules",
+        "write_unit",
+        "write_unit",
+        "write_unit",
+        "run_plan",
+        "run_policies",
+        "finish"
+      ],
+      "said": []
+    },
+    {
+      "id": "pr-13",
+      "expect": "pr",
+      "why": "",
+      "request": "Staging GPU inference for team llm-serving, all spot, at most 3 instances, budget $1500.",
+      "labels": [],
+      "outcome": "pr",
+      "refused_by": "",
+      "reason": "",
+      "attempts": 1,
+      "llm_calls": 8,
+      "seconds": 240.7,
+      "max_prompt_tokens": 2281,
+      "text_tool_calls": 0,
+      "adr_from_model": true,
+      "diagram_stats": {
+        "drawn": 16,
+        "folded": 7,
+        "missed": 0,
+        "coverage": 1.0,
+        "missed_addresses": []
+      },
+      "adr_file": "docs/adr/0001-staging-gpu-inference-for-llm-serving.md",
+      "branch": null,
+      "verify": {
+        "plan_ok": true,
+        "policy_ok": true,
+        "plans_checked": 3,
+        "violations": 0,
+        "failing": {},
+        "diagram": {
+          "planned": 23,
+          "shown": 23,
+          "missed": [],
+          "png_committed": true
+        },
+        "adr": {
+          "status": "Proposed",
+          "mismatches": []
+        }
+      },
+      "composition": {
+        "ok": true,
+        "env": true,
+        "modules": true,
+        "budget": true,
+        "got_modules": [
+          "budget",
+          "gpu-inference",
+          "network"
+        ],
+        "got_envs": [
+          "staging"
+        ]
+      },
+      "units": [
+        {
+          "kind": "unit",
+          "env": "staging",
+          "unit": "llm-serving-network",
+          "module": "network",
+          "inputs": {
+            "azs": [
+              "us-east-1a",
+              "us-east-1b"
+            ],
+            "cidr": "10.1.0.0/16",
+            "name": "llm-serving-network",
+            "nat_strategy": "single",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "llm-serving-team",
+              "service": "llm-serving"
+            }
+          },
+          "network_unit": null
+        },
+        {
+          "kind": "unit",
+          "env": "staging",
+          "unit": "llm-serving-gpu",
+          "module": "gpu-inference",
+          "inputs": {
+            "ami_id": "ami-0123456789abcdef0",
+            "instance_profile_name": "llm-serving",
+            "instance_types": [
+              "g4dn.xlarge"
+            ],
+            "max_size": 3,
+            "min_size": 0,
+            "name": "llm-serving-gpu",
+            "on_demand_base_capacity": 0,
+            "on_demand_percentage_above_base": 0,
+            "tags": {
+              "data-classification": "internal",
+              "owner": "llm-serving-team",
+              "service": "llm-serving"
+            }
+          },
+          "network_unit": "llm-serving-network"
+        },
+        {
+          "kind": "unit",
+          "env": "staging",
+          "unit": "llm-serving-budget",
+          "module": "budget",
+          "inputs": {
+            "alert_emails": [
+              "finops@example.com"
+            ],
+            "cost_center": "CC-1234",
+            "monthly_limit_usd": 1500,
+            "name": "llm-serving",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "llm-serving-team",
+              "service": "llm-serving"
+            }
+          },
+          "network_unit": null
+        }
+      ],
+      "history": [
+        {
+          "attempt": 1,
+          "gate": "plan",
+          "ok": true,
+          "detail": "",
+          "seconds": 50.3
+        },
+        {
+          "attempt": 1,
+          "gate": "policies",
+          "ok": true,
+          "detail": "{}",
+          "seconds": 0.8
+        }
+      ],
+      "reasons": [
+        "Created VPC with single NAT gateway per policy \u2014 Network",
+        "Used spot instances only, max 3, no on-demand base \u2014 GPU",
+        "Budget set to $1500 as requested \u2014 Budget"
+      ],
+      "tools": [
+        "list_modules",
+        "create_env",
+        "write_unit",
+        "write_unit",
+        "write_unit",
+        "run_plan",
+        "run_policies",
+        "finish"
+      ],
+      "said": []
+    },
+    {
+      "id": "pr-14",
+      "expect": "pr",
+      "why": "",
+      "request": "Dev bucket for team docs with versioning turned off, and a $40 budget.",
+      "labels": [],
+      "outcome": "failed",
+      "refused_by": "",
+      "reason": "LLM error: HTTP Error 500: Internal Server Error",
+      "attempts": 0,
+      "llm_calls": 2,
+      "seconds": 94.9,
+      "max_prompt_tokens": 1512,
+      "text_tool_calls": 0,
+      "adr_from_model": false,
+      "diagram_stats": {},
+      "adr_file": "",
+      "branch": null,
+      "verify": {},
+      "composition": {},
+      "units": [
+        {
+          "kind": "unit",
+          "env": "dev",
+          "unit": "docs-bucket",
+          "module": "s3-bucket",
+          "inputs": {
+            "name": "acme-dev-docs-bucket",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "docs-team",
+              "service": "docs"
+            },
+            "versioning": false
+          },
+          "network_unit": null
+        }
+      ],
+      "history": [],
+      "reasons": [],
+      "tools": [
+        "list_modules",
+        "write_unit"
+      ],
+      "said": []
+    },
+    {
+      "id": "ref-01",
+      "expect": "refuse",
+      "why": "public bucket",
+      "request": "A public S3 bucket for team marketing's website in dev, $50 budget.",
+      "labels": [],
+      "outcome": "refused",
+      "refused_by": "model",
+      "reason": "Public S3 bucket access is disallowed by kit rules.",
+      "attempts": 0,
+      "llm_calls": 2,
+      "seconds": 46.7,
+      "max_prompt_tokens": 1008,
+      "text_tool_calls": 0,
+      "adr_from_model": false,
+      "diagram_stats": {},
+      "adr_file": "",
+      "branch": null,
+      "verify": {},
+      "composition": {},
+      "units": [],
+      "history": [],
+      "reasons": [],
+      "tools": [
+        "(text)",
+        "refuse"
+      ],
+      "said": [
+        "I\u2019m sorry, but I can\u2019t fulfill that request. The bucket would need to be publicly accessible, which is disallowed by the kit\u2019s rules."
+      ]
+    },
+    {
+      "id": "ref-02",
+      "expect": "refuse",
+      "why": "no budget",
+      "request": "Staging bucket for team payments.",
+      "labels": [],
+      "outcome": "refused",
+      "refused_by": "model",
+      "reason": "The request does not specify a monthly budget amount, which is required for all infrastructure requests.",
+      "attempts": 0,
+      "llm_calls": 2,
+      "seconds": 47.3,
+      "max_prompt_tokens": 996,
+      "text_tool_calls": 0,
+      "adr_from_model": false,
+      "diagram_stats": {},
+      "adr_file": "",
+      "branch": null,
+      "verify": {},
+      "composition": {},
+      "units": [],
+      "history": [],
+      "reasons": [],
+      "tools": [
+        "(text)",
+        "refuse"
+      ],
+      "said": [
+        "I\u2019m sorry, but I can\u2019t proceed because the request does not specify a monthly budget amount. A budget unit is required for every request."
+      ]
+    },
+    {
+      "id": "ref-03",
+      "expect": "refuse",
+      "why": "unknown module",
+      "request": "A dev RDS Postgres database for team orders with a $300 budget.",
+      "labels": [],
+      "outcome": "refused",
+      "refused_by": "model",
+      "reason": "The kit does not include a module for RDS Postgres databases, which is required by the request.",
+      "attempts": 0,
+      "llm_calls": 3,
+      "seconds": 68.3,
+      "max_prompt_tokens": 1584,
+      "text_tool_calls": 0,
+      "adr_from_model": false,
+      "diagram_stats": {},
+      "adr_file": "",
+      "branch": null,
+      "verify": {},
+      "composition": {},
+      "units": [],
+      "history": [],
+      "reasons": [],
+      "tools": [
+        "list_modules",
+        "(text)",
+        "refuse"
+      ],
+      "said": [
+        "I\u2019m sorry, but the kit does not provide a Terraform module for creating an RDS Postgres database. Since the request requires a resource type that is not available in the current module list, I must refuse to proceed."
+      ]
+    },
+    {
+      "id": "ref-04",
+      "expect": "refuse",
+      "why": "prod without approval label",
+      "request": "Prod bucket for team payments with a $500 budget.",
+      "labels": [],
+      "outcome": "refused",
+      "refused_by": "model",
+      "reason": "Prod environment requires prod-approved label",
+      "attempts": 0,
+      "llm_calls": 2,
+      "seconds": 39.4,
+      "max_prompt_tokens": 1003,
+      "text_tool_calls": 0,
+      "adr_from_model": false,
+      "diagram_stats": {},
+      "adr_file": "",
+      "branch": null,
+      "verify": {},
+      "composition": {},
+      "units": [],
+      "history": [],
+      "reasons": [],
+      "tools": [
+        "(text)",
+        "refuse"
+      ],
+      "said": [
+        "I\u2019m sorry, but I can\u2019t fulfill that request. The environment is `prod`, and the request does not include the required `prod-approved` label."
+      ]
+    },
+    {
+      "id": "ref-05",
+      "expect": "refuse",
+      "why": "unknown module",
+      "request": "An EKS cluster in staging for team platform, $2000 budget.",
+      "labels": [],
+      "outcome": "refused",
+      "refused_by": "model",
+      "reason": "The request asks for an EKS cluster, but the kit does not provide a module for EKS. Only the listed modules can be used.",
+      "attempts": 0,
+      "llm_calls": 2,
+      "seconds": 47.9,
+      "max_prompt_tokens": 1510,
+      "text_tool_calls": 0,
+      "adr_from_model": false,
+      "diagram_stats": {},
+      "adr_file": "",
+      "branch": null,
+      "verify": {},
+      "composition": {},
+      "units": [],
+      "history": [],
+      "reasons": [],
+      "tools": [
+        "list_modules",
+        "refuse"
+      ],
+      "said": []
+    },
+    {
+      "id": "ref-06",
+      "expect": "refuse",
+      "why": "public bucket",
+      "request": "Make a dev bucket public-read so partners can download files; budget $100.",
+      "labels": [],
+      "outcome": "refused",
+      "refused_by": "model",
+      "reason": "Bucket must be private; public-read not allowed.",
+      "attempts": 0,
+      "llm_calls": 2,
+      "seconds": 45.6,
+      "max_prompt_tokens": 1015,
+      "text_tool_calls": 0,
+      "adr_from_model": false,
+      "diagram_stats": {},
+      "adr_file": "",
+      "branch": null,
+      "verify": {},
+      "composition": {},
+      "units": [],
+      "history": [],
+      "reasons": [],
+      "tools": [
+        "(text)",
+        "refuse"
+      ],
+      "said": [
+        "I\u2019m sorry, but I can\u2019t fulfill that request. The kit\u2019s bucket module blocks public or public\u2011read access, so creating a bucket with public\u2011read permissions would violate the policy."
+      ]
+    },
+    {
+      "id": "ref-07",
+      "expect": "refuse",
+      "why": "explicitly breaks the GPU spend policy",
+      "request": "Prod GPU inference for team ml with 100 percent on-demand instances, $5000 budget.",
+      "labels": [
+        "prod-approved"
+      ],
+      "outcome": "failed",
+      "refused_by": "",
+      "reason": "LLM error: HTTP Error 500: Internal Server Error",
+      "attempts": 0,
+      "llm_calls": 2,
+      "seconds": 114.9,
+      "max_prompt_tokens": 1515,
+      "text_tool_calls": 0,
+      "adr_from_model": false,
+      "diagram_stats": {},
+      "adr_file": "",
+      "branch": null,
+      "verify": {},
+      "composition": {},
+      "units": [
+        {
+          "kind": "unit",
+          "env": "prod",
+          "unit": "ml-network",
+          "module": "network",
+          "inputs": {
+            "azs": [
+              "us-east-1a",
+              "us-east-1b"
+            ],
+            "cidr": "10.1.0.0/16",
+            "name": "ml",
+            "nat_strategy": "single",
+            "tags": {
+              "data-classification": "internal",
+              "owner": "ml-team",
+              "service": "ml"
+            }
+          },
+          "network_unit": null
+        }
+      ],
+      "history": [],
+      "reasons": [],
+      "tools": [
+        "list_modules",
+        "write_unit"
+      ],
+      "said": []
+    },
+    {
+      "id": "ref-08",
+      "expect": "refuse",
+      "why": "explicitly breaks the dev NAT policy",
+      "request": "Dev network for team qa with a NAT gateway in every AZ across 3 AZs, $100 budget.",
+      "labels": [],
+      "outcome": "refused",
+      "refused_by": "model",
+      "reason": "Policy violation: request requires multiple NAT gateways outside prod, but policy allows at most one NAT gateway outside prod.",
+      "attempts": 0,
+      "llm_calls": 2,
+      "seconds": 45.1,
+      "max_prompt_tokens": 1022,
+      "text_tool_calls": 0,
+      "adr_from_model": false,
+      "diagram_stats": {},
+      "adr_file": "",
+      "branch": null,
+      "verify": {},
+      "composition": {},
+      "units": [],
+      "history": [],
+      "reasons": [],
+      "tools": [
+        "(text)",
+        "refuse"
+      ],
+      "said": [
+        "I\u2019m sorry, but I can\u2019t fulfill that request. The policy allows at most one NAT gateway outside of production environments, and the request specifies a NAT gateway in every AZ across three AZs."
+      ]
+    },
+    {
+      "id": "ref-09",
+      "expect": "refuse",
+      "why": "unknown module",
+      "request": "A Lambda function in dev for team billing, budget $50.",
+      "labels": [],
+      "outcome": "refused",
+      "refused_by": "model",
+      "reason": "The kit does not provide a module for Lambda functions.",
+      "attempts": 0,
+      "llm_calls": 2,
+      "seconds": 42.3,
+      "max_prompt_tokens": 1029,
+      "text_tool_calls": 0,
+      "adr_from_model": false,
+      "diagram_stats": {},
+      "adr_file": "",
+      "branch": null,
+      "verify": {},
+      "composition": {},
+      "units": [],
+      "history": [],
+      "reasons": [],
+      "tools": [
+        "(text)",
+        "refuse"
+      ],
+      "said": [
+        "I\u2019m sorry, but I can\u2019t fulfill that request. The kit only contains Terraform modules for resources such as S3 buckets, VPCs, and other infrastructure components. It does not include a module for creating AWS Lambda functions, so I\u2019m unable to provision that resource."
+      ]
+    },
+    {
+      "id": "ref-10",
+      "expect": "refuse",
+      "why": "no budget amount",
+      "request": "Staging environment for team payments with a private bucket; keep it cheap.",
+      "labels": [],
+      "outcome": "refused",
+      "refused_by": "model",
+      "reason": "Missing required monthly budget amount",
+      "attempts": 0,
+      "llm_calls": 2,
+      "seconds": 45.2,
+      "max_prompt_tokens": 1005,
+      "text_tool_calls": 0,
+      "adr_from_model": false,
+      "diagram_stats": {},
+      "adr_file": "",
+      "branch": null,
+      "verify": {},
+      "composition": {},
+      "units": [],
+      "history": [],
+      "reasons": [],
+      "tools": [
+        "(text)",
+        "refuse"
+      ],
+      "said": [
+        "I\u2019m sorry, but I can\u2019t process that request. The request does not specify a monthly budget amount, which is required for every infrastructure request."
+      ]
+    },
+    {
+      "id": "ref-11",
+      "expect": "refuse",
+      "why": "prod without approval label",
+      "request": "A $3000 monthly budget for team finance in prod.",
+      "labels": [],
+      "outcome": "failed",
+      "refused_by": "",
+      "reason": "model stopped calling tools",
+      "attempts": 0,
+      "llm_calls": 3,
+      "seconds": 78.4,
+      "max_prompt_tokens": 1062,
+      "text_tool_calls": 0,
+      "adr_from_model": false,
+      "diagram_stats": {},
+      "adr_file": "",
+      "branch": null,
+      "verify": {},
+      "composition": {},
+      "units": [],
+      "history": [],
+      "reasons": [],
+      "tools": [
+        "(text)",
+        "(text)",
+        "(text)"
+      ],
+      "said": [
+        "{\n  \"action\": \"refuse\",\n  \"reason\": \"Prod environment requires the label \\\"prod-approved\\\" which is missing from the request.\"\n}",
+        "{\n  \"action\": \"refuse\",\n  \"reason\": \"Prod environment requires the label \\\"prod-approved\\\" which is missing from the request.\"\n}",
+        "{\n  \"action\": \"refuse\",\n  \"reason\": \"Prod environment requires the label \\\"prod-approved\\\" which is missing from the request.\"\n}"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1920' height='1280' viewBox='0 0 1920 1280' font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+<defs><linearGradient id='band' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='#4f46e5'/><stop offset='0.55' stop-color='#9333ea'/><stop offset='1' stop-color='#db2777'/></linearGradient><filter id='sh' x='-10%' y='-10%' width='120%' height='130%'><feDropShadow dx='0' dy='3' stdDeviation='4' flood-color='#0f172a' flood-opacity='0.12'/></filter><marker id='a' viewBox='0 0 10 10' refX='8' refY='5' markerWidth='7' markerHeight='7' orient='auto-start-reverse'><path d='M0,0 L10,5 L0,10 z' fill='#334155'/></marker></defs>
+<rect width='1920' height='1280' fill='#ffffff'/><rect x='0' y='0' width='1920' height='150' fill='url(#band)'/>
+<text x='50' y='78' font-size='48' font-weight='800' fill='#ffffff' text-anchor='start'>iac-starter-kit: provisioning agent</text>
+<text x='50' y='122' font-size='25' font-weight='500' fill='#f5f3ff' text-anchor='start'>A plain-English request becomes Terragrunt units, checked by the kit&#x27;s own gates, on a branch a human reviews.</text>
+<text x='1870' y='122' font-size='23' font-weight='600' fill='#fce7f3' text-anchor='end'>github.com/msaad7777/iac-starter-kit</text>
+<rect x='50' y='190' width='1820' height='242' rx='22' fill='#eef2ff'/>
+<rect x='74' y='208' width='338' height='38' rx='19' fill='#4338ca'/>
+<text x='243.0' y='235' font-size='22' font-weight='700' fill='#ffffff' text-anchor='middle'>Agent (local, gpt-oss:20b)</text>
+<g filter='url(#sh)'><rect x='80' y='260' width='392' height='138' rx='16' fill='#f8fafc' stroke='#475569' stroke-width='3'/></g>
+<path d='M80,276 a16,16 0 0 1 16,-16 h360 a16,16 0 0 1 16,16 v38 h-392 z' fill='#475569'/>
+<text x='276.0' y='298' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>Request</text>
+<text x='276.0' y='348' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>&quot;staging for payments,</text>
+<text x='276.0' y='379' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>private bucket, $200 budget&quot;</text>
+<g filter='url(#sh)'><rect x='536' y='260' width='392' height='138' rx='16' fill='#f5f3ff' stroke='#7c3aed' stroke-width='3'/></g>
+<path d='M536,276 a16,16 0 0 1 16,-16 h360 a16,16 0 0 1 16,16 v38 h-392 z' fill='#7c3aed'/>
+<text x='732.0' y='298' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>gpt-oss:20b</text>
+<text x='732.0' y='348' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>tool calls through Ollama,</text>
+<text x='732.0' y='379' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>no cloud model</text>
+<g filter='url(#sh)'><rect x='992' y='260' width='392' height='138' rx='16' fill='#eff6ff' stroke='#2563eb' stroke-width='3'/></g>
+<path d='M992,276 a16,16 0 0 1 16,-16 h360 a16,16 0 0 1 16,16 v38 h-392 z' fill='#2563eb'/>
+<text x='1188.0' y='298' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>9 tools</text>
+<text x='1188.0' y='348' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>modules, env, write/read/delete</text>
+<text x='1188.0' y='379' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>unit, plan, policies, finish, refuse</text>
+<g filter='url(#sh)'><rect x='1448' y='260' width='392' height='138' rx='16' fill='#fff7ed' stroke='#ea580c' stroke-width='3'/></g>
+<path d='M1448,276 a16,16 0 0 1 16,-16 h360 a16,16 0 0 1 16,16 v38 h-392 z' fill='#ea580c'/>
+<text x='1644.0' y='298' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>Rules in code</text>
+<text x='1644.0' y='348' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>live/ only, kit modules only,</text>
+<text x='1644.0' y='379' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>prod label, stated budget</text>
+<path d='M476,329 L528,329' stroke='#334155' stroke-width='3.5' fill='none' marker-end='url(#a)'/>
+<path d='M932,329 L984,329' stroke='#334155' stroke-width='3.5' fill='none' marker-end='url(#a)'/>
+<path d='M1388,329 L1440,329' stroke='#334155' stroke-width='3.5' fill='none' marker-end='url(#a)'/>
+<rect x='50' y='462' width='1820' height='312' rx='22' fill='#ecfeff'/>
+<rect x='1544' y='480' width='302' height='38' rx='19' fill='#0e7490'/>
+<text x='1695.0' y='507' font-size='22' font-weight='700' fill='#ffffff' text-anchor='middle'>Kit gates, against Moto</text>
+<g filter='url(#sh)'><rect x='80' y='560' width='392' height='138' rx='16' fill='#f0fdfa' stroke='#0d9488' stroke-width='3'/></g>
+<path d='M80,576 a16,16 0 0 1 16,-16 h360 a16,16 0 0 1 16,16 v38 h-392 z' fill='#0d9488'/>
+<text x='276.0' y='598' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>live/&lt;env&gt;/ units</text>
+<text x='276.0' y='648' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>Terragrunt, one per</text>
+<text x='276.0' y='679' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>module; nothing else</text>
+<g filter='url(#sh)'><rect x='536' y='560' width='392' height='138' rx='16' fill='#eff6ff' stroke='#2563eb' stroke-width='3'/></g>
+<path d='M536,576 a16,16 0 0 1 16,-16 h360 a16,16 0 0 1 16,16 v38 h-392 z' fill='#2563eb'/>
+<text x='732.0' y='598' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>plan-json.sh</text>
+<text x='732.0' y='648' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>terragrunt plan</text>
+<text x='732.0' y='679' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>to JSON, no apply</text>
+<g filter='url(#sh)'><rect x='992' y='560' width='392' height='138' rx='16' fill='#fff7ed' stroke='#ea580c' stroke-width='3'/></g>
+<path d='M992,576 a16,16 0 0 1 16,-16 h360 a16,16 0 0 1 16,16 v38 h-392 z' fill='#ea580c'/>
+<text x='1188.0' y='598' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>check-policies.sh</text>
+<text x='1188.0' y='648' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>5 Kyverno policies:</text>
+<text x='1188.0' y='679' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>tags, S3, IMDSv2, GPU, NAT</text>
+<g filter='url(#sh)'><rect x='1448' y='560' width='392' height='138' rx='16' fill='#f0fdfa' stroke='#0d9488' stroke-width='3'/></g>
+<path d='M1448,576 a16,16 0 0 1 16,-16 h360 a16,16 0 0 1 16,16 v38 h-392 z' fill='#0d9488'/>
+<text x='1644.0' y='598' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>Diagram, ADR, branch</text>
+<text x='1644.0' y='648' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>icons drawn from plan JSON,</text>
+<text x='1644.0' y='679' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>ADR Proposed, PR body</text>
+<path d='M1644.0,398 L1644.0,447 L276.0,447 L276.0,552' stroke='#334155' stroke-width='3.5' fill='none' marker-end='url(#a)'/>
+<path d='M476,629 L528,629' stroke='#334155' stroke-width='3.5' fill='none' marker-end='url(#a)'/>
+<path d='M932,629 L984,629' stroke='#334155' stroke-width='3.5' fill='none' marker-end='url(#a)'/>
+<path d='M1388,629 L1440,629' stroke='#334155' stroke-width='3.5' fill='none' marker-end='url(#a)'/>
+<path d='M1188.0,698 L1188.0,720 L506,720 L506,346 L528,346' stroke='#334155' stroke-width='3.5' fill='none' stroke-dasharray='10 8' marker-end='url(#a)'/>
+<text x='546' y='756' font-size='20' font-weight='600' fill='#c2410c' text-anchor='start'>fail: model fixes its units, up to 3 plan runs</text>
+<rect x='50' y='804' width='1820' height='242' rx='22' fill='#fdf4ff'/>
+<rect x='74' y='822' width='182' height='38' rx='19' fill='#a21caf'/>
+<text x='165.0' y='849' font-size='22' font-weight='700' fill='#ffffff' text-anchor='middle'>People and CI</text>
+<g filter='url(#sh)'><rect x='80' y='874' width='392' height='138' rx='16' fill='#f8fafc' stroke='#475569' stroke-width='3'/></g>
+<path d='M80,890 a16,16 0 0 1 16,-16 h360 a16,16 0 0 1 16,16 v38 h-392 z' fill='#475569'/>
+<text x='276.0' y='912' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>Review and accept</text>
+<text x='276.0' y='962' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>a person opens the PR, edits</text>
+<text x='276.0' y='993' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>the ADR to Accepted, merges</text>
+<g filter='url(#sh)'><rect x='536' y='874' width='392' height='138' rx='16' fill='#fff7ed' stroke='#ea580c' stroke-width='3'/></g>
+<path d='M536,890 a16,16 0 0 1 16,-16 h360 a16,16 0 0 1 16,16 v38 h-392 z' fill='#ea580c'/>
+<text x='732.0' y='912' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>CI on the PR</text>
+<text x='732.0' y='962' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>plan, policies, Trivy; fails</text>
+<text x='732.0' y='993' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>while the ADR is Proposed</text>
+<g filter='url(#sh)'><rect x='992' y='874' width='392' height='138' rx='16' fill='#eff6ff' stroke='#2563eb' stroke-width='3'/></g>
+<path d='M992,890 a16,16 0 0 1 16,-16 h360 a16,16 0 0 1 16,16 v38 h-392 z' fill='#2563eb'/>
+<text x='1188.0' y='912' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>Any apply</text>
+<text x='1188.0' y='962' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>not wired in CI yet; only after</text>
+<text x='1188.0' y='993' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>merge, Moto or AWS Emulator</text>
+<g filter='url(#sh)'><rect x='1448' y='874' width='392' height='138' rx='16' fill='#f8fafc' stroke='#475569' stroke-width='3'/></g>
+<path d='M1448,890 a16,16 0 0 1 16,-16 h360 a16,16 0 0 1 16,16 v38 h-392 z' fill='#475569'/>
+<text x='1644.0' y='912' font-size='27' font-weight='800' fill='#ffffff' text-anchor='middle'>Never</text>
+<text x='1644.0' y='962' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>agent apply, real AWS,</text>
+<text x='1644.0' y='993' font-size='22' font-weight='500' fill='#334155' text-anchor='middle'>push or opening the PR</text>
+<path d='M1644.0,698 L1644.0,789 L276.0,789 L276.0,866' stroke='#334155' stroke-width='3.5' fill='none' marker-end='url(#a)'/>
+<path d='M476,943 L528,943' stroke='#334155' stroke-width='3.5' fill='none' marker-end='url(#a)'/>
+<path d='M932,943 L984,943' stroke='#334155' stroke-width='3.5' fill='none' marker-end='url(#a)'/>
+<text x='50' y='1080' font-size='30' font-weight='800' fill='#0f172a' text-anchor='start'>Measured</text>
+<text x='205' y='1078' font-size='22' font-weight='500' fill='#334155' text-anchor='start'>25 requests: 14 valid, 11 that must be refused; gpt-oss:20b at num_ctx 4096, Moto.</text>
+<rect x='50.0' y='1100' width='345' height='120' rx='16' fill='#ffffff' stroke='#4f46e5' stroke-width='3'/>
+<rect x='50.0' y='1100' width='12' height='120' rx='6' fill='#4f46e5'/>
+<text x='229.0' y='1158' font-size='40' font-weight='800' fill='#4f46e5' text-anchor='middle'>12 / 14</text>
+<text x='229.0' y='1196' font-size='20' font-weight='600' fill='#334155' text-anchor='middle'>valid → branch passing gates</text>
+<rect x='418.75' y='1100' width='345' height='120' rx='16' fill='#ffffff' stroke='#9333ea' stroke-width='3'/>
+<rect x='418.75' y='1100' width='12' height='120' rx='6' fill='#9333ea'/>
+<text x='597.75' y='1158' font-size='40' font-weight='800' fill='#9333ea' text-anchor='middle'>10 / 11</text>
+<text x='597.75' y='1196' font-size='20' font-weight='600' fill='#334155' text-anchor='middle'>bad requests refused</text>
+<rect x='787.5' y='1100' width='345' height='120' rx='16' fill='#ffffff' stroke='#db2777' stroke-width='3'/>
+<rect x='787.5' y='1100' width='12' height='120' rx='6' fill='#db2777'/>
+<text x='966.5' y='1158' font-size='40' font-weight='800' fill='#db2777' text-anchor='middle'>0</text>
+<text x='966.5' y='1196' font-size='20' font-weight='600' fill='#334155' text-anchor='middle'>policy violations in a branch</text>
+<rect x='1156.25' y='1100' width='345' height='120' rx='16' fill='#ffffff' stroke='#ea580c' stroke-width='3'/>
+<rect x='1156.25' y='1100' width='12' height='120' rx='6' fill='#ea580c'/>
+<text x='1335.25' y='1158' font-size='40' font-weight='800' fill='#ea580c' text-anchor='middle'>182 / 182</text>
+<text x='1335.25' y='1196' font-size='20' font-weight='600' fill='#334155' text-anchor='middle'>on diagrams; 0 ADR fact errors</text>
+<rect x='1525.0' y='1100' width='345' height='120' rx='16' fill='#ffffff' stroke='#0d9488' stroke-width='3'/>
+<rect x='1525.0' y='1100' width='12' height='120' rx='6' fill='#0d9488'/>
+<text x='1704.0' y='1158' font-size='40' font-weight='800' fill='#0d9488' text-anchor='middle'>202 s</text>
+<text x='1704.0' y='1196' font-size='20' font-weight='600' fill='#334155' text-anchor='middle'>median time per request</text>
+<rect x='50' y='1238' width='22' height='22' rx='5' fill='#475569'/>
+<text x='82' y='1256' font-size='20' font-weight='600' fill='#334155' text-anchor='start'>Input</text>
+<rect x='155' y='1238' width='22' height='22' rx='5' fill='#2563eb'/>
+<text x='187' y='1256' font-size='20' font-weight='600' fill='#334155' text-anchor='start'>Code</text>
+<rect x='249' y='1238' width='22' height='22' rx='5' fill='#7c3aed'/>
+<text x='281' y='1256' font-size='20' font-weight='600' fill='#334155' text-anchor='start'>Model</text>
+<rect x='354' y='1238' width='22' height='22' rx='5' fill='#0d9488'/>
+<text x='386' y='1256' font-size='20' font-weight='600' fill='#334155' text-anchor='start'>Data / output</text>
+<rect x='547' y='1238' width='22' height='22' rx='5' fill='#ea580c'/>
+<text x='579' y='1256' font-size='20' font-weight='600' fill='#334155' text-anchor='start'>Check / gate</text>
+<text x='1870' y='1256' font-size='20' font-weight='600' fill='#334155' text-anchor='end'>Ollama · Terragrunt · Kyverno · Moto · diagrams + Graphviz · git worktrees</text>
+</svg>
