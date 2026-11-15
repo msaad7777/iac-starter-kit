@@ -78,6 +78,12 @@ KIT_TARGET=emulator PYTHON="uvx --python 3.12 --with boto3 python" scripts/brown
 
 The emulator has no reset API. Restart the container (`docker stop aws-emulator`, then run it again) before the brownfield demo; it keeps everything in memory and gets a new CA and new keys, so source `scripts/emulator-env.sh` again after each start.
 
+## Limits that apply to every result here
+
+- **No IAM evaluation.** The emulator accepts any call signed with its run-only keys. Like Moto, it can't show that a role or policy is least privilege; nothing in this kit claims that from a local run.
+- **One Region and one account, in memory.** State is gone when the container stops, which is why the brownfield demo seeds its estate from a script.
+- **Fidelity varies by service and release.** AWS publishes conformance scores with each release (`scores.json.gz` on the [releases page](https://github.com/aws/aws-emulator/releases)). The table above is what this kit measured itself on 1.0.338.
+
 ## Recommendation
 
 **Keep Moto, and add the emulator as an option (done on this branch).** Don't switch yet.
